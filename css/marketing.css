@@ -1,49 +1,5 @@
 /* Marketing page — two-path experience (Social Media & Google / Motion Design) */
 
-/* ============ Sticky path toggle ============ */
-.path-toggle {
-  position: fixed;
-  top: clamp(4.5rem, 8vh, 5.5rem);
-  right: clamp(1.25rem, 4vw, 3rem);
-  z-index: 400;
-  display: flex;
-  gap: 0.25rem;
-  padding: 0.3rem;
-  border-radius: var(--radius-pill);
-  background: rgba(47,52,62,0.85);
-  border: 1px solid var(--ink-softer);
-  backdrop-filter: blur(6px);
-  opacity: 0;
-  transform: translateY(-8px);
-  pointer-events: none;
-  transition: opacity 0.35s var(--ease-out-soft), transform 0.35s var(--ease-out-soft);
-}
-
-.path-toggle.is-visible {
-  opacity: 1;
-  transform: translateY(0);
-  pointer-events: auto;
-}
-
-.path-toggle-btn {
-  padding: 0.45rem 0.95rem;
-  border-radius: var(--radius-pill);
-  font-size: 0.82rem;
-  font-weight: 700;
-  text-decoration: none;
-  color: var(--bone-dim);
-  transition: color 0.25s, background 0.25s;
-}
-
-.path-toggle-btn.is-active {
-  color: var(--ink);
-  background: var(--ember);
-}
-
-@media (max-width: 640px) {
-  .path-toggle { top: auto; bottom: 1.25rem; right: 1.25rem; }
-}
-
 /* ============ Path chooser ============ */
 .path-chooser-section { padding-top: 0; }
 

@@ -72,6 +72,10 @@ body.site {
 .site-nav ul li:last-child {
   margin-left: auto;
   margin-right: auto;
+  /* These are single-line links sitting next to the two-row tier group,
+     which is taller. Without this they get vertically centered against
+     that extra height and drift below the Current/Surge/Flux baseline. */
+  align-self: flex-start;
 }
 
 .site-nav a.nav-link {

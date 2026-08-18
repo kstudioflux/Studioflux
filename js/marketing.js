@@ -3,9 +3,8 @@
   var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   // ---------- Path gate: only the chosen path's section is shown ----------
-  var toggle = document.getElementById("pathToggle");
   var pathSections = [document.getElementById("path-social"), document.getElementById("path-motion")];
-  var pathTriggers = document.querySelectorAll(".path-panel, .path-toggle-btn");
+  var pathTriggers = document.querySelectorAll(".path-panel");
 
   // Hide both paths at runtime (not in the stylesheet), so the content still
   // shows if JS fails to load.
@@ -18,13 +17,8 @@
       if (section) section.classList.toggle("is-hidden", section.id !== id);
     });
     pathTriggers.forEach(function (btn) {
-      var isActive = btn.getAttribute("data-target") === id;
-      btn.classList.toggle("is-active", isActive);
-      if (btn.classList.contains("path-toggle-btn")) {
-        btn.setAttribute("aria-selected", isActive ? "true" : "false");
-      }
+      btn.classList.toggle("is-active", btn.getAttribute("data-target") === id);
     });
-    if (toggle) toggle.classList.add("is-visible");
   };
 
   pathTriggers.forEach(function (btn) {
