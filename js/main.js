@@ -4,6 +4,18 @@
 
   if (window.gsap && window.ScrollTrigger) {
     gsap.registerPlugin(ScrollTrigger);
+
+    // Pinned/scrubbed sections (e.g. the homepage hero) measure their
+    // start/end points from the layout at script-run time. Custom web
+    // fonts swap in slightly later (font-display: swap) and can reflow
+    // text height, leaving those measurements stale — the first scroll
+    // into a pinned section then jumps/stutters until something else
+    // triggers a recalculation. Refresh once fonts and images have
+    // actually settled to fix that up front instead.
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(function () { ScrollTrigger.refresh(); });
+    }
+    window.addEventListener("load", function () { ScrollTrigger.refresh(); });
   }
 
   // Smooth scroll — sales site only, never on the Tier 1 demo.
@@ -28,15 +40,24 @@
   var toggle = document.getElementById("navToggle");
   var links = document.getElementById("navLinks");
   if (toggle && links) {
-    toggle.addEventListener("click", function () {
-      var open = links.classList.toggle("open");
+    var setOpen = function (open) {
+      links.classList.toggle("open", open);
       toggle.setAttribute("aria-expanded", open ? "true" : "false");
+      document.body.classList.toggle("nav-open", open);
+    };
+    toggle.addEventListener("click", function () {
+      setOpen(!links.classList.contains("open"));
     });
     links.querySelectorAll("a").forEach(function (a) {
       a.addEventListener("click", function () {
-        links.classList.remove("open");
-        toggle.setAttribute("aria-expanded", "false");
+        setOpen(false);
       });
+    });
+    document.addEventListener("keydown", function (evt) {
+      if (evt.key === "Escape" && links.classList.contains("open")) {
+        setOpen(false);
+        toggle.focus();
+      }
     });
   }
 

@@ -267,7 +267,7 @@
   z-index: 1;
 }
 @media (max-width: 900px) {
-  .pricing-card-featured-wrap { transform: none; order: -1; }
+  .pricing-card-featured-wrap { transform: none; }
 }
 
 /* ambient bleed onto the page behind the featured card only — kept as

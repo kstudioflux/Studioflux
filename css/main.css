@@ -151,6 +151,7 @@ body.site {
 
 .nav-toggle {
   display: none;
+  position: relative;
   background: none;
   border: 1px solid var(--ink-softer);
   color: var(--bone);
@@ -158,26 +159,60 @@ body.site {
   height: 42px;
   border-radius: var(--radius-sm);
   cursor: pointer;
+  z-index: 501;
+}
+
+.nav-toggle-bar {
+  position: absolute;
+  left: 50%;
+  width: 18px;
+  height: 1.6px;
+  background: currentColor;
+  border-radius: 1px;
+  transform: translate(-50%, 0);
+  transition: transform 0.3s var(--ease-physical), opacity 0.2s;
+}
+.nav-toggle-bar:nth-child(1) { top: 15px; }
+.nav-toggle-bar:nth-child(2) { top: 20px; }
+.nav-toggle-bar:nth-child(3) { top: 25px; }
+.nav-toggle[aria-expanded="true"] .nav-toggle-bar:nth-child(1) {
+  top: 20px;
+  transform: translate(-50%, 0) rotate(45deg);
+}
+.nav-toggle[aria-expanded="true"] .nav-toggle-bar:nth-child(2) { opacity: 0; }
+.nav-toggle[aria-expanded="true"] .nav-toggle-bar:nth-child(3) {
+  top: 20px;
+  transform: translate(-50%, 0) rotate(-45deg);
 }
 
 @media (max-width: 760px) {
+  body.nav-open { overflow: hidden; }
+
+  /* Full-screen overlay, not a partial drawer — a narrow slice sliding in
+     from the right left the old page content visible/overlapping beside
+     it and had no room for Current/Surge/Flux to fit without clipping. */
   .site-nav ul.nav-links {
     display: flex;
     position: fixed;
-    top: 0;
-    right: 0;
-    left: 30%;
+    inset: 0;
     height: 100vh;
     height: 100dvh;
     background: var(--ink-soft);
     flex-direction: column;
-    gap: clamp(1rem, 2vw, 2rem);
+    justify-content: center;
+    align-items: center;
+    gap: clamp(1.25rem, 4vw, 2rem);
     padding: 6rem 2rem 2rem;
-    transform: translateX(100%);
-    transition: transform 0.45s var(--ease-physical);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: opacity 0.35s var(--ease-out-soft), transform 0.35s var(--ease-out-soft), visibility 0s linear 0.35s;
   }
   .site-nav ul.nav-links.open {
-    transform: translateX(0);
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    transition: opacity 0.35s var(--ease-out-soft), transform 0.35s var(--ease-out-soft), visibility 0s linear 0s;
   }
   .nav-toggle {
     display: block;
@@ -189,14 +224,18 @@ body.site {
   .site-nav ul li:last-child {
     margin-left: 0;
     margin-right: 0;
+    /* Undo the desktop-only align-self: flex-start (keeps these two links
+       level with Current/Surge/Flux in the top bar) — in this full-screen
+       overlay everything should just be centered instead. */
+    align-self: center;
   }
   .site-nav ul li:first-child { margin-bottom: 1.5rem; }
   .site-nav ul li:last-child { margin-top: 1.5rem; }
 
-  /* The narrow slide-in panel doesn't have room for Current/Surge/Flux on
-     one unwrapping line — let it wrap rather than clip. Needs an explicit
-     width because .nav-tier-group centers it (shrink-to-fit), so it never
-     naturally hits an edge to wrap against otherwise. */
+  /* The overlay still isn't unlimited width — let Current/Surge/Flux wrap
+     rather than clip if a very narrow phone can't fit all three on one
+     line. Needs an explicit width because .nav-tier-group centers it
+     (shrink-to-fit), so it never naturally hits an edge to wrap against. */
   .nav-tier-group { width: 100%; }
   .nav-tier-row { flex-wrap: wrap; justify-content: center; width: 100%; gap: 0.75rem 1rem; }
 }
