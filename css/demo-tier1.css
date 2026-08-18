@@ -1,0 +1,252 @@
+/*
+  Kaffe Værk — Tier 1 / Current demo palette: "Paper & Petrol"
+  --ms-bg     #F5F3EF
+  --ms-ink    #1D1A17
+  --ms-dim    #5C554D
+  --ms-accent #2B4A52
+  --ms-wood   #A9793C
+  --ms-line   #E1DCD2
+  Single face throughout: Inter. Clean, fast, honest — the point is the coffee, not the type.
+*/
+
+* { box-sizing: border-box; }
+
+body.ms {
+  --ms-bg: #F5F3EF;
+  --ms-ink: #1D1A17;
+  --ms-dim: #5C554D;
+  --ms-accent: #2B4A52;
+  --ms-accent-bright: #3D6672;
+  --ms-wood: #A9793C;
+  --ms-line: #E1DCD2;
+
+  margin: 0;
+  background: var(--ms-bg);
+  color: var(--ms-ink);
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  line-height: 1.5;
+}
+
+img { max-width: 100%; display: block; }
+a { color: inherit; }
+
+.skip-link {
+  position: absolute; left: -9999px; top: 0;
+  background: var(--ms-accent); color: #fff;
+  padding: 0.75rem 1.25rem; z-index: 1000;
+  font-weight: 700; text-decoration: none;
+}
+.skip-link:focus { left: 0; }
+
+a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
+  outline: 2px solid var(--ms-accent);
+  outline-offset: 3px;
+}
+
+/* ---------- Bar ---------- */
+.ms-bar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 1.1rem clamp(1.25rem, 4vw, 3rem);
+  background: var(--ms-bg);
+  border-bottom: 1px solid var(--ms-line);
+}
+
+.ms-wordmark {
+  font-weight: 800;
+  font-size: 1.05rem;
+  text-decoration: none;
+  color: var(--ms-ink);
+}
+.ms-wordmark span { color: var(--ms-accent); }
+
+.ms-bar nav { display: flex; gap: 1.5rem; }
+.ms-bar nav a { text-decoration: none; color: var(--ms-dim); font-size: 0.92rem; font-weight: 500; transition: color 0.2s; }
+.ms-bar nav a:hover { color: var(--ms-accent); }
+
+.ms-phone {
+  text-decoration: none;
+  font-weight: 700;
+  color: var(--ms-ink);
+  border: 1.5px solid var(--ms-ink);
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  transition: background 0.2s, color 0.2s;
+}
+.ms-phone:hover { background: var(--ms-ink); color: var(--ms-bg); }
+
+@media (max-width: 720px) {
+  .ms-bar nav { display: none; }
+}
+
+/* ---------- Hero ---------- */
+.ms-hero { position: relative; min-height: 88vh; display: flex; align-items: flex-end; }
+.ms-hero-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.ms-hero-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(20,22,20,0.82), rgba(20,22,20,0.25) 55%, rgba(20,22,20,0.05));
+}
+.ms-hero-copy {
+  position: relative;
+  z-index: 1;
+  color: #fff;
+  padding: 3.5rem clamp(1.25rem, 4vw, 3rem);
+  max-width: 760px;
+}
+.ms-eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #E8DFCF;
+  margin: 0 0 1rem;
+}
+.ms-hero h1 {
+  margin: 0;
+  font-size: clamp(2.2rem, 5.5vw, 3.6rem);
+  font-weight: 800;
+  line-height: 1.08;
+}
+.ms-lede {
+  margin: 1.25rem 0 0;
+  font-size: 1.08rem;
+  color: #E4E1D8;
+  max-width: 52ch;
+}
+.ms-hero-actions { display: flex; gap: 1rem; margin-top: 2rem; flex-wrap: wrap; }
+
+.ms-btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.9rem 1.6rem;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 0.95rem;
+  transition: transform 0.15s ease, background 0.2s ease, box-shadow 0.2s ease;
+}
+.ms-btn:hover { transform: translateY(-1px); }
+.ms-btn-primary { background: var(--ms-accent); color: #fff; }
+.ms-btn-primary:hover { background: var(--ms-accent-bright); box-shadow: 0 6px 16px rgba(47,82,51,0.35); }
+.ms-btn-ghost { background: rgba(255,255,255,0.08); color: #fff; border: 1.5px solid rgba(255,255,255,0.55); }
+.ms-btn-ghost:hover { background: rgba(255,255,255,0.16); }
+
+/* ---------- Sections ---------- */
+.ms-section {
+  padding: clamp(3.5rem, 7vw, 5.5rem) clamp(1.25rem, 4vw, 3rem);
+  max-width: 1180px;
+  margin-inline: auto;
+}
+.ms-section h2 {
+  font-size: clamp(1.6rem, 3vw, 2.1rem);
+  margin: 0 0 2.25rem;
+}
+
+/* ---------- Services ---------- */
+.ms-services-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.75rem;
+}
+.ms-service-card {
+  background: #fff;
+  border: 1px solid var(--ms-line);
+  border-radius: 10px;
+  overflow: hidden;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+.ms-service-card:hover { box-shadow: 0 10px 28px -14px rgba(28,32,36,0.25); transform: translateY(-2px); }
+.ms-service-card img { aspect-ratio: 4/3; object-fit: cover; }
+.ms-service-card h3 { margin: 1.1rem 1.25rem 0.4rem; font-size: 1.1rem; }
+.ms-service-card p { margin: 0 1.25rem 1.25rem; color: var(--ms-dim); font-size: 0.94rem; }
+
+/* ---------- Reviews ---------- */
+.ms-reviews { background: #fff; max-width: none; }
+.ms-reviews > * { max-width: 1180px; margin-inline: auto; }
+.ms-review-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.75rem;
+}
+.ms-review-grid blockquote {
+  margin: 0;
+  padding: 1.75rem;
+  background: var(--ms-bg);
+  border-left: 3px solid var(--ms-wood);
+  border-radius: 4px;
+}
+.ms-review-grid p { margin: 0; font-size: 1rem; }
+.ms-review-grid cite { display: block; margin-top: 1rem; font-style: normal; font-weight: 600; color: var(--ms-dim); font-size: 0.88rem; }
+
+/* ---------- Service area ---------- */
+.ms-area-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  align-items: center;
+}
+.ms-area p { color: var(--ms-dim); margin: 1rem 0 1.75rem; max-width: 48ch; }
+.ms-map {
+  aspect-ratio: 4/3;
+  border-radius: 10px;
+  border: 1px solid var(--ms-line);
+  background:
+    radial-gradient(circle at 42% 55%, var(--ms-wood) 0 7px, transparent 8px),
+    repeating-linear-gradient(0deg, rgba(28,32,36,0.05) 0 1px, transparent 1px 38px),
+    repeating-linear-gradient(90deg, rgba(28,32,36,0.05) 0 1px, transparent 1px 38px),
+    #EEECE5;
+}
+
+/* ---------- Footer ---------- */
+.ms-footer {
+  border-top: 1px solid var(--ms-line);
+  padding: 2.5rem clamp(1.25rem, 4vw, 3rem) 5.5rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  max-width: 1180px;
+  margin-inline: auto;
+  color: var(--ms-dim);
+  font-size: 0.92rem;
+}
+.ms-footer a { text-decoration: none; color: var(--ms-ink); font-weight: 600; }
+.ms-footer p { margin: 0.3rem 0; }
+.ms-footer .ms-wordmark { color: var(--ms-ink); font-size: 1rem; }
+
+/* ---------- Sticky mobile call bar ---------- */
+.ms-sticky-call {
+  display: none;
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  z-index: 30;
+  background: var(--ms-accent);
+  color: #fff;
+  text-decoration: none;
+  font-weight: 700;
+  padding: 0.95rem 1rem;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  font-size: 1rem;
+}
+
+@media (max-width: 720px) {
+  .ms-services-grid { grid-template-columns: 1fr 1fr; }
+  .ms-review-grid { grid-template-columns: 1fr; }
+  .ms-area-grid { grid-template-columns: 1fr; }
+  .ms-footer { grid-template-columns: 1fr; }
+  .ms-sticky-call { display: flex; }
+  .ms-section { padding-bottom: 3rem; }
+}
+
+@media (max-width: 460px) {
+  .ms-services-grid { grid-template-columns: 1fr; }
+}
+
+.is-preview .ms-bar, .is-preview .ms-sticky-call { display: none; }

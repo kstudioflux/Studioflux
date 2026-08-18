@@ -1,0 +1,498 @@
+/* Sales site — shared layout, nav, footer, and section styles */
+
+@font-face {
+  font-display: swap;
+}
+
+body.site {
+  overflow-x: hidden;
+}
+
+/* ---------- Nav ---------- */
+.site-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 500;
+  display: flex;
+  align-items: center;
+  gap: clamp(1rem, 2vw, 2rem);
+  padding: 1.25rem clamp(1.25rem, 4vw, 3rem);
+  /* Never fully transparent — the homepage's plain-mockup hero state
+     underneath is light, and the nav's own light frost text needs some
+     scrim to stay readable no matter what's behind it. */
+  background: rgba(5, 6, 15, 0.4);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: inset 0 -1px 0 transparent;
+  transition: background 0.35s, backdrop-filter 0.35s, box-shadow 0.35s;
+}
+
+.site-nav.is-scrolled {
+  background: rgba(5, 6, 15, 0.78);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: inset 0 -1px 0 var(--hairline);
+}
+
+.site-nav .brand {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.15rem;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  color: var(--bone);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.site-nav .brand .dot {
+  display: none;
+}
+
+/* display:contents lets the <li>s become direct flex items of .site-nav
+   itself (peers of the brand and the CTA), so auto-margins can distribute
+   space across the *whole* bar, not just within the list. */
+.site-nav ul {
+  list-style: none;
+  display: contents;
+  margin: 0;
+  padding: 0;
+}
+
+/* Four equal auto-margins — both sides of Softwaresystemer and both sides
+   of Marketing — split all the bar's free space into four equal gaps:
+   brand<->Software, Software<->Current, Sammenlign<->Marketing, and
+   Marketing<->CTA. The core tier links (Current...Sammenlign) keep only
+   the bar's normal small gap between them, so they stay grouped while
+   Software and Marketing sit exactly centered in their own gaps. */
+.site-nav ul li:first-child,
+.site-nav ul li:last-child {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.site-nav a.nav-link {
+  position: relative;
+  text-decoration: none;
+  color: var(--bone-dim);
+  font-size: 0.92rem;
+  letter-spacing: 0.01em;
+  padding-bottom: 0.3rem;
+  transition: color 0.3s var(--ease-out-soft);
+}
+
+.site-nav a.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: var(--ember-bright);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.35s var(--ease-out-soft);
+}
+
+.site-nav a.nav-link:hover,
+.site-nav a.nav-link.active {
+  color: var(--ember-bright);
+}
+
+.site-nav a.nav-link:hover::after,
+.site-nav a.nav-link.active::after {
+  transform: scaleX(1);
+}
+
+/* Current / Surge / Flux stay one row; Sammenlign sits centered on its own
+   line underneath — under the group as a whole, which puts it under Surge
+   specifically since Surge is the middle tier. */
+.nav-tier-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+}
+.nav-tier-row {
+  display: flex;
+  align-items: center;
+  gap: clamp(1rem, 2vw, 2rem);
+}
+.nav-link-compare {
+  font-size: 0.76rem;
+}
+
+.site-nav .nav-cta {
+  background: transparent;
+  color: var(--bone);
+  border: 1px solid var(--ink-softer);
+  padding: 0.55rem 1.15rem;
+  border-radius: var(--radius-pill);
+  font-weight: 700;
+  font-size: 0.88rem;
+  text-decoration: none;
+  transition: transform 0.35s var(--ease-physical), box-shadow 0.35s var(--ease-physical), background 0.3s, border-color 0.3s, color 0.3s;
+}
+
+.site-nav .nav-cta:hover {
+  background: var(--ember);
+  border-color: var(--ember);
+  color: var(--ink);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px -6px rgba(209, 228, 250, 0.6);
+}
+
+.nav-toggle {
+  display: none;
+  background: none;
+  border: 1px solid var(--ink-softer);
+  color: var(--bone);
+  width: 42px;
+  height: 42px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+
+@media (max-width: 760px) {
+  .site-nav ul.nav-links {
+    display: flex;
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 30%;
+    height: 100vh;
+    height: 100dvh;
+    background: var(--ink-soft);
+    flex-direction: column;
+    gap: clamp(1rem, 2vw, 2rem);
+    padding: 6rem 2rem 2rem;
+    transform: translateX(100%);
+    transition: transform 0.45s var(--ease-physical);
+  }
+  .site-nav ul.nav-links.open {
+    transform: translateX(0);
+  }
+  .nav-toggle {
+    display: block;
+  }
+  .site-nav .nav-cta {
+    display: none;
+  }
+  .site-nav ul li:first-child,
+  .site-nav ul li:last-child {
+    margin-left: 0;
+    margin-right: 0;
+  }
+  .site-nav ul li:first-child { margin-bottom: 1.5rem; }
+  .site-nav ul li:last-child { margin-top: 1.5rem; }
+
+  /* The narrow slide-in panel doesn't have room for Current/Surge/Flux on
+     one unwrapping line — let it wrap rather than clip. Needs an explicit
+     width because .nav-tier-group centers it (shrink-to-fit), so it never
+     naturally hits an edge to wrap against otherwise. */
+  .nav-tier-group { width: 100%; }
+  .nav-tier-row { flex-wrap: wrap; justify-content: center; width: 100%; gap: 0.75rem 1rem; }
+}
+
+/* ---------- Footer ---------- */
+.site-footer {
+  border-top: 1px solid var(--ink-softer);
+  padding: clamp(3rem, 6vw, 4.5rem) clamp(1.25rem, 4vw, 3rem) 2.5rem;
+  margin-top: 6rem;
+}
+
+.site-footer .footer-brand {
+  width: var(--container);
+  margin-inline: auto;
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  color: var(--bone);
+  text-decoration: none;
+  display: block;
+  margin-bottom: clamp(2rem, 5vw, 3.5rem);
+}
+
+.site-footer .footer-brand:hover { color: var(--ember-bright); }
+
+.site-footer .footer-grid {
+  display: grid;
+  grid-template-columns: 1.4fr repeat(3, 1fr);
+  gap: 2rem;
+  width: var(--container);
+  margin-inline: auto;
+}
+
+.site-footer h4 {
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--bone-dim);
+  margin-bottom: 0.9rem;
+  font-weight: 700;
+}
+
+.site-footer a {
+  display: block;
+  color: var(--bone-dim);
+  text-decoration: none;
+  font-size: 0.92rem;
+  padding: 0.3rem 0;
+  transition: color 0.25s;
+}
+
+.site-footer a:hover {
+  color: var(--ember-bright);
+}
+
+.site-footer .foot-bottom {
+  width: var(--container);
+  margin: 2.5rem auto 0;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--ink-softer);
+  font-size: 0.8rem;
+  color: var(--bone-dim);
+  display: flex;
+  justify-content: space-between;
+}
+
+@media (max-width: 760px) {
+  .site-footer .footer-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* ---------- Generic section scaffolding used across pages ---------- */
+.section {
+  position: relative;
+  padding: clamp(4rem, 10vw, 8rem) clamp(1.25rem, 4vw, 3rem);
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.78rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ember-bright);
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.eyebrow::before {
+  content: "";
+  width: 22px;
+  height: 1px;
+  background: var(--ember);
+}
+
+.section-numeral {
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  margin-right: 0.15em;
+  opacity: 0.85;
+}
+.section-numeral::after { content: "\00b7"; margin-left: 0.5em; }
+
+.section-title {
+  font-size: clamp(2rem, 4.5vw, 3.4rem);
+  line-height: 1.05;
+  max-width: 16ch;
+}
+
+.section-lede {
+  color: var(--bone-dim);
+  font-size: 1.1rem;
+  max-width: 52ch;
+  margin-top: 1.25rem;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.9rem 1.7rem;
+  border-radius: var(--radius-pill);
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 0.95rem;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: transform 0.35s var(--ease-physical), box-shadow 0.35s var(--ease-physical), background 0.3s, color 0.3s, border-color 0.3s;
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--bone);
+  border-color: var(--ink-softer);
+}
+
+.btn-ghost:hover {
+  border-color: var(--ember);
+  color: var(--ember-bright);
+  transform: translateY(-2px);
+}
+
+/* ---------- Materialize: how liquid glass enters/exits ---------- */
+/* Apple's own framing for this material: "instead of fading, Liquid Glass
+   objects materialize in and out" — a soft blur+scale settle rather than a
+   plain opacity fade. Applied to every glass surface on the site (primary
+   CTAs, the marketing path-panels, the Cal.com frame). JS adds .is-visible
+   the first time each element scrolls into view; see main.js. */
+.btn-primary,
+.path-panel,
+.cal-frame {
+  opacity: 0;
+  filter: blur(14px);
+  transform: scale(0.92);
+  /* transition lives on each component's own rule below — they each also
+     transition transform/box-shadow on hover, and a shorthand redeclared
+     later in the cascade would silently drop these properties otherwise */
+}
+
+.btn-primary.is-visible,
+.path-panel.is-visible,
+.cal-frame.is-visible {
+  opacity: 1;
+  filter: blur(0);
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn-primary,
+  .path-panel,
+  .cal-frame {
+    opacity: 1;
+    filter: none;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* ---------- Primary CTA: frost glass ---------- */
+/* Same 4-layer construction as before (rim ring, recessed panel, backdrop
+   refraction, sheen), retinted from warm ember to the Midnight Frost
+   palette — dark navy panel, Frost Glow / Glass Edge / Pure White for the
+   rim and highlights instead of amber. Both pseudo layers sit at
+   z-index:-1 so they never sit above the label. */
+.btn-primary {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border: none;
+  color: var(--bone);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+  background: linear-gradient(155deg, rgba(15, 18, 28, 0.78), rgba(5, 6, 15, 0.62) 60%, rgba(12, 15, 24, 0.72));
+  backdrop-filter: blur(18px) saturate(160%);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  box-shadow:
+    inset 0 1px 1px rgba(186, 215, 247, 0.35),
+    inset 0 -8px 14px rgba(5, 6, 15, 0.5),
+    inset 0 0 0 1px rgba(209, 228, 250, 0.45),
+    0 18px 40px -16px rgba(0, 0, 0, 0.55);
+  transition:
+    transform 300ms var(--ease-physical),
+    box-shadow 300ms var(--ease-physical),
+    backdrop-filter 300ms var(--ease-physical),
+    opacity 0.7s var(--ease-out-soft),
+    filter 0.7s var(--ease-out-soft);
+}
+
+.btn-primary::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  padding: 2px;
+  background:
+    radial-gradient(circle at 92% 8%, rgba(255, 255, 255, 0.6), transparent 50%),
+    radial-gradient(circle at 98% 55%, rgba(186, 215, 247, 0.6), transparent 45%),
+    radial-gradient(circle at 90% 95%, rgba(209, 228, 250, 0.65), transparent 50%),
+    radial-gradient(circle at 4% 15%, rgba(199, 211, 234, 0.55), transparent 55%),
+    radial-gradient(circle at 6% 85%, rgba(157, 167, 186, 0.45), transparent 55%),
+    linear-gradient(rgba(209, 228, 250, 0.28), rgba(209, 228, 250, 0.28));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+.btn-primary::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.32) 0%, rgba(209, 228, 250, 0.08) 35%, transparent 62%);
+  pointer-events: none;
+  transition: opacity 150ms var(--ease-physical);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  backdrop-filter: blur(22px) saturate(180%);
+  -webkit-backdrop-filter: blur(22px) saturate(180%);
+  box-shadow:
+    inset 0 1px 1px rgba(186, 215, 247, 0.5),
+    inset 0 -8px 16px rgba(5, 6, 15, 0.6),
+    inset 0 0 0 1px rgba(209, 228, 250, 0.7),
+    0 22px 48px -16px rgba(209, 228, 250, 0.45);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+.btn-primary:active::after {
+  opacity: 0.6;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn-primary,
+  .btn-primary::after {
+    transition: box-shadow 0s, opacity 0s;
+  }
+  .btn-primary:hover {
+    transform: none;
+  }
+}
+
+.btn-arrow {
+  transition: transform 0.35s var(--ease-physical);
+}
+
+.btn:hover .btn-arrow {
+  transform: translateX(4px);
+}
+
+/* Editorial text-link CTA — used in place of a filled pill button wherever
+   a closing statement wants a lighter touch. */
+.final-cta-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-family: var(--font-display);
+  font-size: clamp(1.15rem, 2.2vw, 1.5rem);
+  font-weight: 600;
+  color: var(--bone);
+  text-decoration: none;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid var(--ink-softer);
+  transition: color 0.3s, border-color 0.3s, gap 0.3s;
+}
+
+.final-cta-link:hover {
+  color: var(--ember-bright);
+  border-color: var(--ember);
+  gap: 1.1rem;
+}
+
+.final-cta-link .btn-arrow {
+  transition: transform 0.35s var(--ease-physical);
+}
+.final-cta-link:hover .btn-arrow { transform: translateX(4px); }

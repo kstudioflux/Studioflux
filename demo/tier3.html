@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="da">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>MADSEN &amp; SØN: Tømrer i Aarhus</title>
+<meta name="description" content="Madsen &amp; Søn Tømrer er en familiedrevet tømrervirksomhed i Aarhus. Tre generationer af håndværkere, én standard: det skal holde.">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="../css/fonts.css">
+<link rel="stylesheet" href="../css/tokens.css">
+<link rel="stylesheet" href="../css/demo-tier3.css">
+</head>
+<body class="kw" data-demo="immersive">
+
+<a class="skip-link" href="#kw-main">Skip to content</a>
+
+<header class="kw-bar">
+  <a href="#kw-main" class="kw-wordmark">MADSEN &amp; SØN</a>
+  <nav aria-label="Madsen og Søn Tømrer">
+    <a href="#kw-menu">Ydelser</a>
+    <a href="#kw-visit">Besøg</a>
+    <a href="tel:+4586112233" class="kw-cta">Få et tilbud</a>
+  </nav>
+</header>
+
+<main id="kw-main">
+
+  <!-- SCENE 1: LOGOTYPESAMLING -->
+  <section class="kw-scene kw-hero" id="kw-hero" aria-label="Madsen og Søn Tømrer">
+    <div class="kw-hero-pin">
+      <div class="kw-hero-video-wrap" aria-hidden="true">
+        <video class="kw-hero-video" data-timelapse autoplay muted playsinline poster="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&w=1600&q=60"></video>
+      </div>
+      <div class="kw-vignette" aria-hidden="true"></div>
+      <div class="kw-parallax-layer kw-layer-back" aria-hidden="true"></div>
+      <div class="kw-steam" aria-hidden="true">
+        <span></span><span></span><span></span>
+      </div>
+
+      <h1 class="kw-logotype" aria-label="Madsen">
+        <span class="kw-letters" aria-hidden="true">
+          <span data-l>M</span><span data-l>A</span><span data-l>D</span><span data-l>S</span><span data-l>E</span><span data-l>N</span>
+        </span>
+      </h1>
+      <p class="kw-tagline">Madsen &amp; Søn Tømrer: tømrerarbejde bygget til at holde, siden 1974.</p>
+      <p class="kw-badge">&#9679; fundament &middot; vægge &middot; tag, fra start til slut</p>
+
+      <div class="kw-scroll-cue" aria-hidden="true"><span>Scroll</span><i></i></div>
+    </div>
+  </section>
+
+  <!-- SCENE 2: THE SCREW — one pinned sequence, drilling only: hero handoff
+       -> a pre-rendered drill/screw video -> fades out and releases
+       straight into the gallery. -->
+  <section class="kw-scene kw-screw-scene" id="kw-screw-scene" aria-label="Værktøjet i arbejde">
+    <div class="kw-screw-pin">
+      <video class="kw-screw-video" id="kwScrewVideo" src="../img/screw-sequence.mp4" muted playsinline preload="auto" aria-hidden="true"></video>
+      <div class="kw-screw-fallback" id="kwScrewFallback" aria-hidden="true"></div>
+      <p class="kw-screw-quote kw-kinetic" data-kinetic>Ét snit. Målt to gange. Ingen genveje.</p>
+    </div>
+  </section>
+  <script>
+    // Reserve the screw scene's scroll distance synchronously, before the
+    // scroll-scrub script (below, at the bottom of body) has run. Without
+    // this, scrolling fast right after page load can carry the visitor
+    // straight past this section before its ScrollTrigger even exists.
+    (function () {
+      var s = document.getElementById("kw-screw-scene");
+      if (!s) return;
+      var isMobile = window.innerWidth < 768;
+      s.style.minHeight = (isMobile ? 0.9 : 1.5) * window.innerHeight + "px";
+    })();
+  </script>
+
+  <!-- SCENE 3: RINGGALLERI — photos arranged on a tilted 3D ring, like
+       Saturn's rings, rotating as the visitor scrolls. -->
+  <section class="kw-scene kw-gallery-scene" aria-label="Nyt arbejde">
+    <div class="kw-gallery-pin">
+      <p class="kw-gallery-heading">Nyt arbejde</p>
+      <div class="kw-ring-stage">
+        <div class="kw-ring-group" id="kwRingGroup">
+          <figure class="kw-ring-item" style="--i:0">
+            <img src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&w=1200&q=70" alt="Strukturel opbygning af en husudvidelse">
+            <figcaption>Fundament, godkendt efter reglerne</figcaption>
+          </figure>
+          <figure class="kw-ring-item" style="--i:1">
+            <img src="https://images.unsplash.com/photo-1556911220-bff31c812dba?auto=format&fit=crop&w=1200&q=70" alt="Et specialbygget køkken i træ">
+            <figcaption>Køkkener, bygget og monteret på stedet</figcaption>
+          </figure>
+          <figure class="kw-ring-item" style="--i:2">
+            <img src="https://images.unsplash.com/photo-1600585152220-90363fe7e115?auto=format&fit=crop&w=1200&q=70" alt="En nybygget udendørs træterrasse">
+            <figcaption>Terrasser, bygget til dansk vejr</figcaption>
+          </figure>
+          <figure class="kw-ring-item" style="--i:3">
+            <img src="https://images.unsplash.com/photo-1632759145351-1d592919f522?auto=format&fit=crop&w=1200&q=70" alt="Tagtømrerarbejde og spærkonstruktion">
+            <figcaption>Spær, fra tilbud til sidste søm</figcaption>
+          </figure>
+          <figure class="kw-ring-item" style="--i:4">
+            <img src="https://images.unsplash.com/photo-1581858726788-75bc0f6a952d?auto=format&fit=crop&w=1200&q=70" alt="En renoveret stue med synlige træbjælker">
+            <figcaption>Fulde renoveringer, fra start til slut</figcaption>
+          </figure>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SCENE 4: YDELSER -->
+  <section class="kw-scene kw-menu" id="kw-menu" aria-label="Ydelser">
+    <p class="kw-eyebrow">Det vi bygger</p>
+    <ul class="kw-menu-list">
+      <li><span class="kw-item">Fundament &amp; konstruktion</span><span class="kw-dots" aria-hidden="true"></span><span class="kw-price">fra 8.000 kr</span></li>
+      <li><span class="kw-item">Specialkøkkener</span><span class="kw-dots" aria-hidden="true"></span><span class="kw-price">fra 25.000 kr</span></li>
+      <li><span class="kw-item">Terrasser &amp; udendørs</span><span class="kw-dots" aria-hidden="true"></span><span class="kw-price">fra 15.000 kr</span></li>
+      <li><span class="kw-item">Døre &amp; vinduer</span><span class="kw-dots" aria-hidden="true"></span><span class="kw-price">fra 4.500 kr</span></li>
+      <li><span class="kw-item">Tagtømrerarbejde</span><span class="kw-dots" aria-hidden="true"></span><span class="kw-price">fra 30.000 kr</span></li>
+      <li><span class="kw-item">Renovering</span><span class="kw-dots" aria-hidden="true"></span><span class="kw-price">Tilbud efter aftale</span></li>
+    </ul>
+  </section>
+
+  <!-- SCENE 5: BESØG / AFSLUTNING -->
+  <section class="kw-scene kw-visit" id="kw-visit" aria-label="Besøg Madsen og Søn">
+    <div class="kw-visit-inner">
+      <p class="kw-kinetic" data-kinetic>Kom og se arbejdet.</p>
+      <div class="kw-visit-grid">
+        <div>
+          <h3>Åbningstider</h3>
+          <p>Man til fre kl. 07:00 til 16:00</p>
+        </div>
+        <div>
+          <h3>Adresse</h3>
+          <p>Grenåvej 112<br>8200 Aarhus N</p>
+        </div>
+        <div>
+          <h3>Få et tilbud</h3>
+          <p><a class="kw-link" href="tel:+4586112233">+45 86 11 22 33</a><br><a class="kw-link" href="mailto:kontakt@madsen-tomrer.dk">kontakt@madsen-tomrer.dk</a></p>
+        </div>
+      </div>
+      <div class="kw-map" role="img" aria-label="Kortplaceholder der viser Madsen og Søns arbejdsområde omkring Aarhus"></div>
+    </div>
+    <footer class="kw-footer">
+      <span class="kw-wordmark small">MADSEN &amp; SØN</span>
+      <span>Bygget på Flux niveau af Studio Flux</span>
+    </footer>
+  </section>
+
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script src="../js/preview-autoscroll.js"></script>
+<script src="../js/timelapse-sequencer.js"></script>
+<script src="../js/demo-tier3.js"></script>
+<script src="../js/demo-tier3-screw.js"></script>
+</body>
+</html>

@@ -1,0 +1,376 @@
+/* ============================================================
+   Pricing showcase — three-tier row with an energized featured
+   card. Structural idea borrowed from Huly's pricing pattern,
+   fully translated into Ember & Iron: warm ember filament border
+   instead of an electric arc, serif numerals, our index-list
+   language (numbers, not checkmarks).
+   ============================================================ */
+
+.pricing-showcase-section {
+  position: relative;
+  isolation: isolate;
+}
+.pricing-showcase-section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(55% 50% at 50% 55%, rgba(209, 228, 250, 0.08), transparent 65%);
+  pointer-events: none;
+}
+
+.pricing-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  align-items: center;
+  /* Row-gap clears the bolt's vertical reach; column-gap is wider than the
+     tier-page spacing because three energized borders now sit side by side
+     — see the reach overrides below that also pull each card's own bolt in. */
+  gap: clamp(3rem, 5vw, 4rem) clamp(3rem, 6vw, 4.5rem);
+  margin-top: clamp(5.5rem, 8vw, 7rem);
+}
+
+@media (max-width: 900px) {
+  .pricing-row { grid-template-columns: 1fr; max-width: 26rem; margin-inline: auto; }
+}
+
+/* ---------- base card ---------- */
+.pricing-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: clamp(1.75rem, 3vw, 2.25rem) clamp(1.5rem, 2.5vw, 2rem);
+  border-radius: var(--radius-lg);
+  background: linear-gradient(160deg, var(--ink-soft), var(--ink));
+  box-shadow: 0 24px 60px -24px rgba(0, 0, 0, 0.55), inset 0 1px 1px rgba(255, 255, 255, 0.3);
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s var(--ease-out-soft), transform 0.7s var(--ease-out-soft), box-shadow 0.35s;
+}
+
+.pricing-card.is-revealed { opacity: 1; transform: translateY(0); }
+
+.pricing-card:not(.pricing-card-featured):hover {
+  box-shadow: 0 30px 70px -26px rgba(0, 0, 0, 0.6), inset 0 1px 1px rgba(255, 255, 255, 0.3), inset 0 0 0 1px rgba(255, 255, 255, 0.3);
+}
+
+/* ---------- tier fill: each card's own gradient (white / green / red),
+   matching the energized border colors — the card carries the tier
+   identity now, not just the ring around it. Diagonal beam (::before, blend
+   screen so it only lightens) + a soft top sheen (::after) on top of the
+   base gradient set per [data-level] below. No overflow:hidden here since
+   the lightning-bolt border needs to bleed past the card edge. */
+.pricing-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  border-radius: inherit;
+  pointer-events: none;
+  background:
+    linear-gradient(115deg, transparent 30%, rgba(255, 255, 255, 0.55) 44%, rgba(255, 255, 255, 0.1) 55%, transparent 66%),
+    linear-gradient(115deg, transparent 62%, rgba(255, 255, 255, 0.28) 76%, transparent 88%);
+  mix-blend-mode: screen;
+}
+.pricing-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  pointer-events: none;
+  background:
+    linear-gradient(160deg, rgba(255, 255, 255, 0.22) 0%, transparent 42%),
+    radial-gradient(circle at 50% 125%, transparent 39%, rgba(255, 255, 255, 0.07) 40%, transparent 41%),
+    radial-gradient(circle at 50% 125%, transparent 51%, rgba(255, 255, 255, 0.06) 52%, transparent 53%);
+}
+
+.pricing-card[data-level="1"] {
+  background: linear-gradient(125deg, #e2e4e9 0%, #f8f9fb 24%, #ffffff 44%, #eef0f4 58%, #dde0e6 78%, #eceef2 100%);
+  color: #14151a;
+}
+/* White is already near max brightness — the screen-blend beam would do
+   nothing, so this tier skips ::before and relies on the gradient stops
+   above (baked-in highlight band) plus the sheen in ::after. */
+.pricing-card[data-level="1"]::before { display: none; }
+
+.pricing-card[data-level="2"] {
+  background: linear-gradient(150deg, #0b3d22 0%, #1fa35a 48%, #062615 100%);
+  color: #ffffff;
+}
+
+.pricing-card[data-level="3"] {
+  background: linear-gradient(150deg, #6e1414 0%, #d92a2a 48%, #3a0808 100%);
+  color: #ffffff;
+}
+
+/* ---------- per-tier text contrast against the new fills ---------- */
+.pricing-card[data-level="1"] .pricing-tier,
+.pricing-card[data-level="1"] .pricing-price .pre,
+.pricing-card[data-level="1"] .pricing-price .unit,
+.pricing-card[data-level="1"] .pricing-for,
+.pricing-card[data-level="1"] .pricing-feat li { color: rgba(20, 21, 26, 0.65); }
+.pricing-card[data-level="1"] .pricing-price .num,
+.pricing-card[data-level="1"] .pricing-feat .n { color: #14151a; }
+.pricing-card[data-level="1"] .pricing-hr { border-top-color: rgba(20, 21, 26, 0.15); }
+
+.pricing-card[data-level="2"] .pricing-tier,
+.pricing-card[data-level="3"] .pricing-tier,
+.pricing-card[data-level="2"] .pricing-price .pre,
+.pricing-card[data-level="3"] .pricing-price .pre,
+.pricing-card[data-level="2"] .pricing-price .unit,
+.pricing-card[data-level="3"] .pricing-price .unit,
+.pricing-card[data-level="2"] .pricing-for,
+.pricing-card[data-level="3"] .pricing-for,
+.pricing-card[data-level="2"] .pricing-feat li,
+.pricing-card[data-level="3"] .pricing-feat li { color: rgba(255, 255, 255, 0.8); }
+.pricing-card[data-level="2"] .pricing-price .num,
+.pricing-card[data-level="3"] .pricing-price .num,
+.pricing-card[data-level="2"] .pricing-feat .n,
+.pricing-card[data-level="3"] .pricing-feat .n { color: #ffffff; }
+.pricing-card[data-level="2"] .pricing-hr,
+.pricing-card[data-level="3"] .pricing-hr { border-top-color: rgba(255, 255, 255, 0.25); }
+
+.pricing-tier {
+  font-size: 0.78rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--bone-dim);
+  font-weight: 700;
+}
+
+.pricing-price {
+  display: flex;
+  align-items: baseline;
+  gap: 0.3rem;
+  margin: 0.7rem 0 0.6rem;
+  font-family: var(--font-display);
+}
+.pricing-price .pre,
+.pricing-price .unit {
+  font-size: 1rem;
+  color: var(--bone-dim);
+}
+.pricing-price .num {
+  font-size: clamp(2.6rem, 5.5vw, 3.6rem);
+  font-weight: 600;
+  line-height: 1;
+  color: var(--bone);
+}
+
+.pricing-for {
+  color: var(--bone-dim);
+  font-size: 0.92rem;
+  margin-bottom: 1.4rem;
+  min-height: 2.7em;
+}
+
+.pricing-hr {
+  border: none;
+  border-top: 1px solid var(--ink-softer);
+  margin: 0 0 1.4rem;
+}
+
+.pricing-feat {
+  list-style: none;
+  margin: 0 0 1.75rem;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  flex: 1;
+}
+.pricing-feat li {
+  display: grid;
+  grid-template-columns: 1.6rem 1fr;
+  gap: 0.6rem;
+  align-items: baseline;
+  font-size: 0.88rem;
+  color: var(--bone-dim);
+}
+.pricing-feat .n {
+  color: var(--ember-bright);
+  font-weight: 700;
+  font-size: 0.74rem;
+  letter-spacing: 0.02em;
+}
+
+.pricing-btn {
+  display: block;
+  text-align: center;
+  padding: 0.85rem;
+  border-radius: var(--radius-pill);
+  font-weight: 700;
+  font-size: 0.92rem;
+  text-decoration: none;
+  transition: background 0.3s, border-color 0.3s, color 0.3s, transform 0.3s var(--ease-physical);
+}
+.pricing-btn-ghost {
+  border: 1px solid var(--ink-softer);
+  color: var(--bone);
+  background: transparent;
+}
+.pricing-btn-ghost:hover {
+  background: var(--ink-softer);
+  border-color: var(--ember);
+}
+.pricing-btn-solid {
+  background: var(--bone);
+  color: var(--ink);
+  border: 1px solid var(--bone);
+}
+.pricing-btn-solid:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px -10px rgba(209, 228, 250, 0.35);
+}
+.pricing-btn { display: flex; align-items: center; justify-content: center; gap: 0.5rem; }
+.pricing-btn:hover .btn-arrow { transform: translateX(4px); }
+
+/* Button colors now invert against each card's own fill — a same-color
+   button on a same-color card would simply disappear. Dark solid on the
+   white card; light pills (matching the marketing page's CTA style) on
+   the green and red cards. */
+.pricing-card[data-level="1"] .pricing-btn {
+  background: #14151a;
+  border-color: #14151a;
+  color: #ffffff;
+}
+.pricing-card[data-level="1"] .pricing-btn:hover {
+  background: #2b2d36;
+  border-color: #2b2d36;
+}
+
+.pricing-card[data-level="2"] .pricing-btn {
+  background: #ffffff;
+  border-color: #ffffff;
+  color: #0b3d22;
+}
+.pricing-card[data-level="2"] .pricing-btn:hover {
+  background: #eafff1;
+  border-color: #eafff1;
+}
+
+.pricing-card[data-level="3"] .pricing-btn {
+  background: #ffffff;
+  border-color: #ffffff;
+  color: #6e1414;
+}
+.pricing-card[data-level="3"] .pricing-btn:hover {
+  background: #ffecec;
+  border-color: #ffecec;
+}
+
+/* ---------- featured card ---------- */
+.pricing-card-featured-wrap {
+  position: relative;
+  transform: scale(1.05);
+  z-index: 1;
+}
+@media (max-width: 900px) {
+  .pricing-card-featured-wrap { transform: none; order: -1; }
+}
+
+/* ambient bleed onto the page behind the featured card only — kept as
+   the one thing that sets it apart; the border itself is now identical
+   across all three cards (see below). */
+.pricing-bg-bleed {
+  position: absolute;
+  inset: -35%;
+  z-index: -2;
+  background: radial-gradient(circle at 50% 42%, var(--price-c-halo, rgba(201, 119, 61, 0.26)), transparent 65%);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s;
+}
+.pricing-card-featured-wrap.is-looping .pricing-bg-bleed {
+  opacity: 0.85;
+  animation: price-bloom-breathe 7s ease-in-out infinite;
+}
+
+/* ---------- energized border: same ember/white/green/red system as the
+   tier-page price-hero (css/editorial.css) — .price-hero-ring, .price-hero-
+   bolt, .price-hero-spark and .price-hero-bloom are shared classes; the
+   jagged bolt geometry itself is generated once in js/editorial.js and
+   picks up any [data-level] container, this one included. Only the tier
+   color variables and the activation/pause triggers need restating here,
+   since .pricing-card is a different container than .price-hero. ---- */
+.pricing-card[data-level="1"] {
+  --price-c-base: #3A3A38;
+  --price-c-mid: #C9C6BC;
+  --price-c-hot: #FFFFFF;
+  --price-c-glow: rgba(230, 230, 225, 0.85);
+  --price-c-halo: rgba(200, 200, 195, 0.12);
+}
+.pricing-card[data-level="2"] {
+  --price-c-base: #0F3A20;
+  --price-c-mid: #3FAE63;
+  --price-c-hot: #E9FFEE;
+  --price-c-glow: rgba(63, 174, 99, 0.85);
+  --price-c-halo: rgba(62, 156, 87, 0.14);
+}
+.pricing-card[data-level="3"] {
+  --price-c-base: #4A0E0E;
+  --price-c-mid: #E13B2B;
+  --price-c-hot: #FFEDE9;
+  --price-c-glow: rgba(225, 59, 43, 0.85);
+  --price-c-halo: rgba(196, 50, 31, 0.14);
+}
+
+.pricing-card .price-hero-ring,
+.pricing-card .price-hero-bloom { border-radius: var(--radius-lg); }
+
+/* Three cards sit side by side here, unlike the single centered price-hero
+   on tier pages — pull each border's reach in, especially sideways, so
+   neighboring borders don't touch even on a wide spike/blur frame. */
+.pricing-card .price-hero-ring { inset: -1rem -0.85rem; }
+.pricing-card .price-hero-bloom { inset: -1.25rem -1.1rem; filter: blur(26px); }
+.pricing-card .price-hero-bolt {
+  inset: -1.25rem -1rem -1.5rem;
+  width: calc(100% + 2rem);
+  height: calc(100% + 2.75rem);
+}
+.pricing-card .price-hero-spark-2 { right: -1rem; }
+.pricing-card .price-hero-spark-4 { left: -1rem; }
+
+.pricing-card.is-looping .price-hero-ring {
+  background: conic-gradient(from calc(var(--price-ember-angle) + var(--price-jitter-angle)),
+    var(--price-c-base) 0deg, var(--price-c-base) 334deg,
+    var(--price-c-mid) 344deg, var(--price-c-mid) 350deg,
+    var(--price-c-hot) 354deg, var(--price-c-hot) 356deg,
+    var(--price-c-mid) 359deg,
+    var(--price-c-base) 360deg);
+  animation:
+    price-ember-loop 9s linear infinite,
+    price-ember-jitter 0.7s steps(6, end) infinite;
+}
+.pricing-card.is-looping .price-hero-bolt { opacity: 1; }
+.pricing-card.is-looping .price-hero-spark { animation: price-spark-flicker 2.6s steps(1, end) infinite; }
+.pricing-card.is-looping .price-hero-bloom {
+  opacity: 0.4;
+  animation: price-bloom-breathe 6s ease-in-out infinite;
+}
+
+.pricing-card .price-hero-spark-1 { top: -0.9rem; left: 14%; width: 4px; height: 4px; animation-delay: 0s; }
+.pricing-card .price-hero-spark-2 { top: 22%; right: -1.2rem; animation-delay: 0.5s; }
+.pricing-card .price-hero-spark-3 { bottom: -0.9rem; left: 40%; width: 5px; height: 5px; animation-delay: 1.05s; }
+.pricing-card .price-hero-spark-4 { top: 62%; left: -1.2rem; animation-delay: 1.6s; }
+.pricing-card .price-hero-spark-5 { bottom: -0.9rem; left: 78%; width: 4px; height: 4px; animation-delay: 2.05s; }
+
+.pricing-card.is-looping:not(.is-in-view) .price-hero-ring,
+.pricing-card.is-looping:not(.is-in-view) .price-hero-bloom,
+.pricing-card.is-looping:not(.is-in-view) .price-hero-spark {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pricing-card { opacity: 1; transform: none; transition: none; }
+  .price-hero-ring,
+  .price-hero-bloom,
+  .price-hero-spark { animation: none !important; }
+  .pricing-card.is-looping .price-hero-ring {
+    background: conic-gradient(var(--price-c-base) 0deg, var(--price-c-mid) 87%, var(--price-c-hot) 90%, var(--price-c-mid) 93%, var(--price-c-base) 360deg);
+  }
+  .pricing-card.is-looping .price-hero-bloom { opacity: 0.3; }
+  .pricing-bg-bleed { opacity: 0.6; animation: none; }
+  .price-hero-spark { display: none; }
+}

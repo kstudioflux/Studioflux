@@ -1,0 +1,274 @@
+/* ============================================================
+   Bento feature grid — structural idea borrowed from Huly's
+   product mosaic, translated into Ember & Iron: warm corner
+   glows instead of cool ones, and every card's visual is a
+   framed piece of OUR product UI, never a stock photo or an
+   icon illustration.
+   ============================================================ */
+
+.bento-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: clamp(1rem, 2vw, 1.5rem);
+  margin-top: clamp(2.5rem, 5vw, 4rem);
+}
+
+.bento-card {
+  position: relative;
+  grid-column: span 12;
+  display: flex;
+  flex-direction: column;
+  border-radius: 16px;
+  background: var(--ink-soft);
+  box-shadow: var(--shadow-card);
+  padding: clamp(1.25rem, 2.5vw, 1.75rem);
+  overflow: hidden;
+  isolation: isolate;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s var(--ease-out-soft), transform 0.6s var(--ease-out-soft), box-shadow 0.35s;
+}
+.bento-card.is-visible { opacity: 1; transform: none; }
+.bento-card:hover { box-shadow: var(--shadow-card-bright); }
+
+@media (min-width: 860px) {
+  .bento-card-lg { grid-column: span 7; }
+  .bento-card-md { grid-column: span 5; }
+  .bento-card-sm { grid-column: span 4; }
+}
+
+/* Motion Design section only has the one product-video card now — let it
+   take the full row instead of leaving the other 5 columns empty. */
+#path-motion .bento-grid { grid-template-columns: 1fr; max-width: 62rem; margin-inline: auto; }
+@media (min-width: 860px) {
+  #path-motion .bento-card-lg { grid-column: auto; }
+}
+
+/* The gradient boxes ARE the card here — drop the grey bento-card chrome
+   (background, shadow, padding, corner glow) so the blue boxes fill the
+   space it used to occupy instead of sitting inset inside a second box. */
+#path-motion .bento-card-lg {
+  background: none;
+  box-shadow: none;
+  padding: 0;
+}
+#path-motion .bento-card-lg::before { display: none; }
+#path-motion .bento-card-lg:hover { box-shadow: none; }
+
+/* Corner glow — light, not icons, is the decoration. Varies which
+   corner per card so the grid feels lit from different sources. */
+.bento-card::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  width: 380px;
+  height: 380px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(209, 228, 250, 0.16), transparent 70%);
+  opacity: 0.7;
+  transition: opacity 0.4s;
+  pointer-events: none;
+}
+.bento-card:hover::before { opacity: 1; }
+.bento-glow-tl::before { top: -140px; left: -140px; }
+.bento-glow-tr::before { top: -140px; right: -140px; }
+.bento-glow-bl::before { bottom: -140px; left: -140px; }
+.bento-glow-br::before { bottom: -140px; right: -140px; }
+
+.bento-media {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  min-height: 160px;
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+  transition: transform 0.4s var(--ease-out-soft);
+}
+.bento-media .motion-compare { margin-top: 0; }
+.bento-card:hover .bento-media { transform: translateY(-5px); }
+
+.bento-caption {
+  position: relative;
+  z-index: 1;
+  font-size: 0.92rem;
+  line-height: 1.55;
+  color: var(--bone-dim);
+  max-width: 42ch;
+}
+.bento-caption-lead {
+  font-weight: 700;
+  color: var(--bone);
+}
+
+/* ---------- shared browser/phone frame for real mini-demos ---------- */
+.bento-frame {
+  position: relative;
+  width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--ink);
+  box-shadow: inset 0 0 0 1px var(--hairline);
+}
+.bento-frame-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.55rem 0.7rem;
+}
+.bento-frame-bar span {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--ink-softer);
+}
+.bento-frame-body {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+}
+.bento-frame-body iframe {
+  position: absolute;
+  top: 0; left: 0;
+  width: 250%;
+  height: 250%;
+  transform: scale(0.4);
+  transform-origin: top left;
+  border: 0;
+  pointer-events: none;
+}
+
+/* ---------- mock: Google search result ---------- */
+.mock-google {
+  width: 100%;
+  padding: 1.1rem 1.2rem;
+  border-radius: 12px;
+  background: var(--ink);
+  box-shadow: inset 0 0 0 1px var(--hairline);
+}
+.mock-google-url { font-size: 0.72rem; color: var(--bone-dim); margin-bottom: 0.3rem; }
+.mock-google-title { font-family: var(--font-display); font-size: 1.25rem; color: var(--bone); margin-bottom: 0.35rem; }
+.mock-google-rating { display: flex; align-items: center; gap: 0.4rem; margin-bottom: 0.6rem; font-size: 0.78rem; color: var(--bone-dim); }
+.mock-google-stars { color: var(--ember-bright); letter-spacing: 0.05em; font-size: 0.85rem; }
+.mock-google-lines span { display: block; height: 6px; border-radius: 3px; background: var(--ink-softer); margin-bottom: 0.4rem; }
+.mock-google-lines span:nth-child(1) { width: 92%; }
+.mock-google-lines span:nth-child(2) { width: 68%; margin-bottom: 0; }
+
+/* ---------- mock: Google Business Profile card ---------- */
+.mock-profile {
+  width: 100%;
+  padding: 1rem 1.1rem;
+  border-radius: 12px;
+  background: var(--ink);
+  box-shadow: inset 0 0 0 1px var(--hairline);
+  display: flex;
+  gap: 0.8rem;
+  align-items: flex-start;
+}
+.mock-profile-icon {
+  width: 38px; height: 38px;
+  flex-shrink: 0;
+  border-radius: var(--radius-sm);
+  background: linear-gradient(150deg, var(--ember), var(--ember-bright));
+}
+.mock-profile-name { font-size: 0.92rem; font-weight: 700; color: var(--bone); }
+.mock-profile-cat { font-size: 0.72rem; color: var(--bone-dim); margin: 0.15rem 0 0.4rem; }
+.mock-profile-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.7rem;
+  color: #4caf6e;
+  font-weight: 700;
+}
+.mock-profile-status::before {
+  content: "";
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: #4caf6e;
+}
+
+/* ---------- mock: small analytics graph ---------- */
+.mock-graph {
+  width: 100%;
+  padding: 1.1rem 1.2rem 0.9rem;
+  border-radius: 12px;
+  background: var(--ink);
+  box-shadow: inset 0 0 0 1px var(--hairline);
+}
+.mock-graph-label { font-size: 0.72rem; color: var(--bone-dim); margin-bottom: 0.7rem; }
+.mock-graph-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.4rem;
+  height: 64px;
+}
+.mock-graph-bars span {
+  flex: 1;
+  border-radius: 3px 3px 0 0;
+  background: linear-gradient(to top, var(--ember), var(--ember-bright));
+  opacity: 0.55;
+}
+.mock-graph-bars span:last-child { opacity: 1; }
+
+/* ---------- mock: sponsored feed post (condensed) ---------- */
+.mock-ad {
+  width: 100%;
+  padding: 0.9rem 1rem;
+  border-radius: 12px;
+  background: var(--ink);
+  box-shadow: inset 0 0 0 1px rgba(209, 228, 250, 0.35);
+}
+.mock-ad-top { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.6rem; }
+.mock-ad-avatar { width: 22px; height: 22px; border-radius: 50%; background: var(--ember); }
+.mock-ad-tag {
+  font-size: 0.6rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ember-bright);
+  background: rgba(209, 228, 250, 0.18);
+  padding: 0.15rem 0.4rem;
+  border-radius: 3px;
+}
+.mock-ad-photo {
+  aspect-ratio: 16/9;
+  border-radius: 8px;
+  background: linear-gradient(135deg, rgba(209, 228, 250, 0.35), rgba(255, 255, 255, 0.12));
+}
+
+/* ---------- mock: mini product-card motion loop (reuses mp-card language) ---------- */
+.mock-loop {
+  position: relative;
+  width: 100%;
+  height: 140px;
+}
+.mock-loop-card {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 60%;
+  height: 70%;
+  border-radius: var(--radius-sm);
+  transform: translate(-50%, -50%);
+}
+.mock-loop-card-1 {
+  background: linear-gradient(160deg, var(--ink-softer), var(--ink-soft));
+  transform: translate(-62%, -46%) rotate(-6deg);
+}
+.mock-loop-card-2 {
+  background: linear-gradient(120deg, var(--ember) 0%, var(--ember-bright) 45%, var(--ember) 100%);
+  background-size: 220% 220%;
+  animation: mock-loop-shimmer 3.5s ease-in-out infinite;
+  transform: translate(-42%, -54%) rotate(4deg);
+}
+@keyframes mock-loop-shimmer {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bento-card { opacity: 1; transform: none; transition: none; }
+  .mock-loop-card-2 { animation: none; }
+}

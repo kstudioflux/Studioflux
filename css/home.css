@@ -1,0 +1,638 @@
+/* ============ SCENE 1 — HERO UPGRADE ============ */
+.hero-upgrade {
+  position: relative;
+}
+
+.hero-pin {
+  position: relative;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  background: #F4F1EA;
+}
+
+.hero-bg-plain {
+  position: absolute;
+  inset: 0;
+  background: #F4F1EA;
+  opacity: 1;
+}
+
+.hero-bg-cinematic {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  background:
+    radial-gradient(60% 55% at 78% 18%, rgba(209,228,250,0.28), transparent 65%),
+    radial-gradient(70% 60% at 15% 88%, rgba(63,73,89,0.20), transparent 60%),
+    var(--ink);
+}
+
+.hero-glow {
+  position: absolute;
+  inset: -20%;
+  opacity: 0;
+  background: radial-gradient(circle at 72% 30%, rgba(255,255,255,0.35), transparent 55%);
+  pointer-events: none;
+  mix-blend-mode: screen;
+}
+
+.grain-overlay {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  mix-blend-mode: overlay;
+}
+
+.ghost-boxes {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.ghost-box {
+  position: absolute;
+  display: block;
+  border: 1px solid rgba(22,24,28,0.1);
+  background: rgba(255,255,255,0.55);
+  box-shadow: 0 1px 2px rgba(22,24,28,0.06);
+}
+
+/* Kept clear of the centered hero text column (left-aligned, max-width
+   1100px) — confined to the right edge and top/bottom margins so they
+   never sit behind the heading, subhead, or CTA button. */
+.gb-1 { width: 15%; height: 10%; top: 9%; right: 9%; }
+.gb-2 { width: 11%; height: 20%; bottom: 11%; right: 6%; }
+.gb-3 { width: 12%; height: 6%; top: 34%; right: 7%; }
+
+.hero-tier-label {
+  position: absolute;
+  top: clamp(5.5rem, 10vh, 7rem);
+  right: clamp(1.5rem, 4vw, 3rem);
+  opacity: 0;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  font-weight: 700;
+  color: var(--bone-dim);
+  text-transform: uppercase;
+  z-index: 5;
+}
+
+.hero-tier-label .tier-tick {
+  color: var(--ember-bright);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 4;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 clamp(1.5rem, 6vw, 6rem);
+  max-width: 1100px;
+}
+
+.hero-kicker {
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #6b6b6b;
+  opacity: 0;
+  transform: translateY(8px);
+  margin-bottom: 1.1rem;
+}
+
+.hero-h1 {
+  font-family: system-ui, sans-serif;
+  font-weight: 700;
+  font-size: clamp(2.4rem, 7vw, 5.6rem);
+  line-height: 1.02;
+  color: #16181c;
+  letter-spacing: -0.01em;
+  transition: font-family 0.4s, letter-spacing 0.6s var(--ease-out-soft);
+}
+
+.hero-upgrade.is-upgraded .hero-h1 {
+  font-family: var(--font-display);
+  letter-spacing: -0.015em;
+}
+
+.h1-line {
+  display: block;
+  transform-origin: left center;
+}
+
+.h1-accent {
+  color: #6b6b6b;
+}
+
+.h1-accent.font-script {
+  display: inline-block;
+  font-size: 1.25em;
+  line-height: 1.3;
+  padding-top: 0.1em;
+}
+
+.hero-upgrade.is-upgraded .h1-accent {
+  font-weight: 400;
+}
+
+.hero-sub {
+  margin-top: 1.5rem;
+  max-width: 46ch;
+  font-size: clamp(1rem, 1.6vw, 1.2rem);
+  color: #4c4c4c;
+}
+
+.hero-btn {
+  margin-top: 2.5rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  width: fit-content;
+  padding: 0.85rem 1.6rem;
+  background: #d7d3c9;
+  color: #16181c;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 0.95rem;
+  border-radius: 4px;
+}
+
+.hero-upgrade.is-upgraded .hero-btn {
+  box-shadow: 0 12px 34px -10px rgba(209,228,250,0.65);
+}
+
+.scroll-cue {
+  position: absolute;
+  bottom: clamp(1.5rem, 5vh, 2.5rem);
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  z-index: 4;
+  color: #6b6b6b;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.hero-upgrade.is-upgraded .scroll-cue { color: var(--bone-dim); }
+
+.scroll-cue-line {
+  width: 1px;
+  height: 34px;
+  background: currentColor;
+  overflow: hidden;
+  position: relative;
+}
+
+.scroll-cue-line::after {
+  content: "";
+  position: absolute;
+  top: -100%;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--ember-bright);
+  animation: cue-drip 1.8s var(--ease-in-out-soft) infinite;
+}
+
+@keyframes cue-drip {
+  0% { top: -100%; }
+  60% { top: 100%; }
+  100% { top: 100%; }
+}
+
+.motion-static .hero-btn { box-shadow: 0 12px 34px -10px rgba(209,228,250,0.65); }
+
+@media (max-width: 640px) {
+  .hero-tier-label { top: 5rem; }
+  .ghost-box { display: none; }
+}
+
+/* ============ SCENE 2 — THREE DOORS ============ */
+.tiers-section { padding-top: clamp(4rem, 8vw, 6rem); }
+
+.doors-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(1.25rem, 2.5vw, 2rem);
+  margin-top: clamp(2.5rem, 5vw, 4rem);
+}
+
+.door {
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.45s var(--ease-physical), box-shadow 0.4s;
+}
+
+.door:hover { transform: translateY(-8px); }
+
+/* Each tier's card carries its own demo's palette, rather than three
+   identical dark boxes with different text — Current stays plain and
+   daylit, Surge picks up the salon's deep pine, Flux goes fully cinematic. */
+.door-foundation {
+  background: #F4F1EA;
+  border: 1px solid rgba(22,24,28,0.08);
+}
+.door-foundation .door-promise,
+.door-foundation .door-delivery { color: #625f56; }
+.door-foundation .door-price,
+.door-foundation h3 { color: #16181c; }
+.door-foundation:hover { box-shadow: 0 22px 44px -18px rgba(22,24,28,0.28); }
+.door-foundation .door-tag-foundation { color: #454b55; background: rgba(22,24,28,0.08); }
+.door-foundation .device-frame { border-color: rgba(22,24,28,0.12); }
+.door-foundation .btn-ghost { color: #16181c; border-color: rgba(22,24,28,0.25); }
+.door-foundation .btn-ghost:hover { border-color: var(--ember); color: var(--ember); }
+
+.door-signature {
+  background: #ddd3b1;
+  border: 1px solid rgba(22,24,28,0.1);
+}
+.door-signature .door-promise,
+.door-signature .door-delivery { color: #625f56; }
+.door-signature .door-price,
+.door-signature h3 { color: #16181c; }
+.door-signature:hover { box-shadow: 0 22px 44px -18px rgba(22,24,28,0.28); }
+.door-signature .door-tag-signature { color: #454b55; background: rgba(22,24,28,0.1); }
+.door-signature .device-frame { border-color: rgba(22,24,28,0.12); }
+.door-signature .btn-ghost { color: #16181c; border-color: rgba(22,24,28,0.25); }
+.door-signature .btn-ghost:hover { border-color: var(--ember); color: var(--ember); }
+
+.door-immersive {
+  background: #b69d77;
+  border: 1px solid rgba(22,24,28,0.15);
+}
+.door-immersive .door-promise,
+.door-immersive .door-delivery { color: #4a3f2e; }
+.door-immersive .door-price,
+.door-immersive h3 { color: #16181c; }
+.door-immersive:hover { box-shadow: 0 26px 50px -18px rgba(22,24,28,0.32); }
+.door-immersive .door-tag-immersive { color: #3d2f1a; background: rgba(22,24,28,0.12); }
+.door-immersive .device-frame { border-color: rgba(22,24,28,0.15); }
+.door-immersive .btn-ghost { color: #16181c; border-color: rgba(22,24,28,0.3); }
+.door-immersive .btn-ghost:hover { border-color: var(--ember); color: var(--ember); }
+
+.door-preview {
+  padding: clamp(1.25rem, 2.5vw, 1.75rem) clamp(1.25rem, 2.5vw, 1.75rem) 0;
+}
+
+.device-frame {
+  position: relative;
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
+  overflow: hidden;
+  aspect-ratio: 16 / 11;
+  background: var(--ink);
+  border: 1px solid var(--ink-softer);
+  border-bottom: none;
+}
+
+.device-frame iframe {
+  position: absolute;
+  top: 0; left: 0;
+  width: 400%;
+  height: 400%;
+  transform: scale(0.25);
+  transform-origin: top left;
+  border: 0;
+  pointer-events: none;
+}
+
+.door-body {
+  padding: clamp(1.5rem, 2.5vw, 2rem);
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.door-tag {
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  width: fit-content;
+  padding: 0.25rem 0.65rem;
+  border-radius: var(--radius-pill);
+}
+
+.door-tag-foundation { color: var(--steel-bright); background: rgba(107,116,128,0.16); }
+.door-tag-signature { color: var(--pine-bright); background: rgba(62,92,84,0.2); }
+.door-tag-immersive { color: var(--ember-bright); background: rgba(201,119,61,0.18); }
+
+.door h3 {
+  font-size: 1.7rem;
+}
+
+.door-promise {
+  color: var(--bone-dim);
+  font-size: 0.98rem;
+}
+
+.door-price {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  color: var(--bone);
+  margin: 0.2rem 0 0;
+}
+
+.door-delivery {
+  color: var(--bone-dim);
+  font-size: 0.85rem;
+  margin: 0 0 0.6rem;
+}
+
+.door .btn { margin-top: 0.4rem; width: fit-content; }
+
+@media (max-width: 960px) {
+  .doors-grid { grid-template-columns: 1fr; }
+}
+
+/* ============ SCENE 3 — WHO IT'S FOR ============ */
+.whofor-section { padding-bottom: clamp(3rem, 6vw, 5rem); }
+
+.trade-strip {
+  display: flex;
+  gap: 1.25rem;
+  overflow-x: auto;
+  padding: 2.5rem clamp(1.25rem, 4vw, 3rem) 1rem;
+  cursor: grab;
+  scroll-snap-type: x proximity;
+  scrollbar-width: thin;
+}
+
+.trade-strip.dragging { cursor: grabbing; scroll-snap-type: none; }
+
+.trade-card {
+  position: relative;
+  flex: 0 0 auto;
+  width: clamp(200px, 24vw, 260px);
+  aspect-ratio: 3 / 4;
+  border-radius: 12px;
+  overflow: hidden;
+  scroll-snap-align: start;
+  box-shadow: var(--shadow-card);
+}
+
+/* Photography stays photography, but curated: one consistent warm grade
+   across every customer-trade photo, so the strip reads as a considered
+   set rather than pasted stock images. */
+.trade-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s var(--ease-out-soft), filter 0.6s var(--ease-out-soft);
+  background: var(--ink-soft);
+  filter: sepia(0.22) saturate(1.1) brightness(0.94) contrast(1.03);
+}
+
+.trade-card:hover img { filter: sepia(0.14) saturate(1.15) brightness(0.98) contrast(1.03); }
+
+.trade-card:hover img { transform: scale(1.06); }
+
+.trade-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(5,6,15,0.92), transparent 55%);
+}
+
+.trade-card span {
+  position: absolute;
+  left: 1.1rem;
+  bottom: 1rem;
+  right: 1rem;
+  z-index: 2;
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  color: var(--bone);
+}
+
+/* ============ SCENE 4 — PROCESS + PROOF + CTA ============ */
+.process-video-wrap {
+  position: relative;
+  margin-top: clamp(2.5rem, 5vw, 4rem);
+  aspect-ratio: 21 / 10;
+  min-height: 320px;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--ink);
+}
+
+.process-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.process-video-scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(100deg, rgba(5,6,15,0.92) 0%, rgba(5,6,15,0.55) 42%, rgba(5,6,15,0.15) 68%, transparent 85%);
+}
+
+.process-steps {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  padding: clamp(1.5rem, 4vw, 3.5rem);
+}
+
+.process-step {
+  position: absolute;
+  left: clamp(1.5rem, 4vw, 3.5rem);
+  right: 30%;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: clamp(1rem, 2.5vw, 1.75rem);
+  align-items: baseline;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.5s var(--ease-out-soft), transform 0.5s var(--ease-out-soft);
+  pointer-events: none;
+}
+
+.process-step.is-active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.process-step-num {
+  font-family: var(--font-display);
+  color: var(--ember-bright);
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 600;
+  line-height: 1;
+}
+
+.process-step h3 {
+  color: var(--bone);
+  font-size: clamp(1.3rem, 2.2vw, 1.7rem);
+  margin: 0 0 0.4rem;
+}
+
+.process-step p {
+  color: var(--bone-dim);
+  font-size: 0.95rem;
+  max-width: 38ch;
+}
+
+.process-progress {
+  position: absolute;
+  left: clamp(1.5rem, 4vw, 3.5rem);
+  right: clamp(1.5rem, 4vw, 3.5rem);
+  bottom: clamp(1.25rem, 3vw, 2rem);
+  display: flex;
+  gap: 0.5rem;
+}
+
+.process-progress-bar {
+  flex: 1;
+  position: relative;
+  height: 20px;
+  padding: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.process-progress-bar::before {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 3px;
+  background: rgba(209,228,250,0.2);
+  border-radius: 2px;
+  transition: background 0.25s;
+}
+
+.process-progress-bar:hover::before { background: rgba(209,228,250,0.4); }
+
+.process-progress-bar:focus-visible {
+  outline: 2px solid var(--ember-bright);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+.process-progress-bar i {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 3px;
+  width: 0%;
+  border-radius: 2px;
+  background: var(--ember-bright);
+  transition: width 0.4s var(--ease-out-soft);
+}
+
+.process-progress-bar.is-done i { width: 100%; }
+.process-progress-bar.is-active i { width: 100%; }
+
+/* Fallback if the clips fail to load: static gradient panel, all four
+   steps stacked and visible instead of relying on video to carry them. */
+.process-video-wrap.is-static {
+  aspect-ratio: auto;
+  min-height: 0;
+  background: radial-gradient(60% 60% at 20% 30%, rgba(209,228,250,0.14), transparent 65%), var(--ink-soft);
+  padding: clamp(1.5rem, 4vw, 2.5rem);
+}
+.process-video-wrap.is-static .process-video-scrim,
+.process-video-wrap.is-static .process-progress { display: none; }
+.process-video-wrap.is-static .process-steps {
+  position: static;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+  padding: 0;
+}
+.process-video-wrap.is-static .process-step {
+  position: static;
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+
+@media (max-width: 760px) {
+  .process-video-wrap { aspect-ratio: 4 / 5; }
+  .process-step { right: clamp(1.5rem, 4vw, 3.5rem); }
+  .process-video-wrap.is-static .process-steps { grid-template-columns: 1fr; }
+}
+
+/* Its own section now (previously the tail end of process-section), so it
+   supplies its own top spacing instead of stacking with .section's base
+   padding. */
+.proof-cta-section { padding-top: 0; }
+
+.ig-badge-section { padding-top: 0; }
+
+.ig-badge {
+  align-self: center;
+  margin-top: 1.5rem;
+  display: block;
+  width: clamp(330px, 42vw, 510px);
+  aspect-ratio: 1;
+  perspective: 900px;
+}
+
+/* Rotating the badge itself in 3D (rotateY, not a flat rotateZ) so it
+   turns like a spun coin or a planet on its axis — foreshortening as it
+   turns edge-on — instead of spinning flat like a clock hand. Sits still
+   until .is-spinning is added (once it first scrolls into view — see
+   js/main.js), then does 5 fast revolutions and stops. */
+.ig-badge img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  filter: drop-shadow(0 20px 45px rgba(209,228,250,0.5));
+  transform-style: preserve-3d;
+}
+
+/* Two-phase spin-down, all one continuous linear-timed animation: 10 fast
+   rotations (0.125s each = 1.25s), then 3 slower rotations (0.5s each =
+   1.5s), for 2.75s total. The two speeds come purely from how much
+   rotation is packed into each keyframe segment relative to its share of
+   the timeline — a real deceleration would ease between them, but this
+   reads as two distinct spin speeds like the request asked for. */
+.ig-badge.is-spinning img {
+  animation-name: ig-spin;
+  animation-duration: 2.75s;
+  animation-timing-function: linear;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+}
+
+.ig-badge:focus-visible {
+  outline: 2px solid var(--ember-bright);
+  outline-offset: 4px;
+}
+
+@keyframes ig-spin {
+  0% { transform: rotateY(0deg); }
+  45.4545% { transform: rotateY(3600deg); }  /* 10 rotations done at 1.25s */
+  100% { transform: rotateY(4680deg); }      /* +3 more rotations by 2.75s */
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ig-badge.is-spinning img { animation: none; }
+}
+
+.btn-lg {
+  padding: 1.1rem 2.2rem;
+  font-size: 1.05rem;
+}
+

@@ -1,0 +1,13 @@
+# Security headers for static hosts that read this file convention
+# (Netlify, Cloudflare Pages). This file has NO effect on other hosts
+# (GitHub Pages, S3/CloudFront, a plain nginx/Apache server, etc.) — those
+# need the equivalent headers configured directly in the host/server config.
+# See the security report for details.
+
+/*
+  Content-Security-Policy: default-src 'self'; script-src 'self' https://cdn.jsdelivr.net https://app.cal.com; style-src 'self' 'unsafe-inline'; img-src 'self' https://images.unsplash.com; font-src 'self'; media-src 'self'; connect-src 'self' https://app.cal.com https://cal.com; frame-src https://cal.com https://app.cal.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests
+  Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()

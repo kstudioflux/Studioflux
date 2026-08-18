@@ -1,0 +1,615 @@
+/* Editorial component library — shared across every page. Breaks the
+   centered-template rhythm: asymmetric intros, one dominant stat at a time,
+   a single index-list language, one unified closing-CTA, a spec-sheet row,
+   and an in-frame live-demo badge. All new reveal animations share one
+   easing curve (var(--ease-out-soft)) and one motion signature: fade + 20px
+   translate-y, staggered. */
+
+/* ============ Asymmetric section intro ============ */
+/* Headline in a narrow left column, supporting copy offset to the right —
+   the alternative to a centered eyebrow/title/lede stack. */
+.intro-split {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  align-items: end;
+}
+
+.intro-split .eyebrow {
+  grid-row: 1;
+}
+
+@media (min-width: 860px) {
+  .intro-split {
+    grid-template-columns: 5fr 7fr;
+    column-gap: clamp(2rem, 5vw, 4rem);
+  }
+  .intro-split .intro-split-head { grid-column: 1; }
+  .intro-split .intro-split-support { grid-column: 2; padding-bottom: 0.4rem; }
+  .intro-split .section-title { max-width: none; }
+  .intro-split .section-lede { margin-top: 0; max-width: 42ch; }
+}
+
+/* ============ Statement stat ============ */
+.stat-stack {
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-block {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  padding: clamp(2rem, 5vw, 3rem) 0;
+  border-bottom: 1px solid var(--ink-softer);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.7s var(--ease-out-soft), transform 0.7s var(--ease-out-soft);
+}
+
+.stat-block:first-child { border-top: 1px solid var(--ink-softer); }
+.stat-block.is-visible { opacity: 1; transform: none; }
+
+.stat-number {
+  display: block;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(4rem, 12vw, 10rem);
+  line-height: 0.88;
+  color: var(--ember-bright);
+}
+
+.stat-copy p {
+  color: var(--bone-dim);
+  font-size: 1rem;
+  max-width: 36ch;
+  margin: 0;
+}
+
+@media (min-width: 760px) {
+  .stat-block {
+    grid-template-columns: 7fr 5fr;
+    align-items: center;
+    column-gap: clamp(2rem, 4vw, 3rem);
+  }
+}
+
+/* ============ Index list (numbers live in the margin, not a box) ========= */
+.feature-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-width: none;
+}
+
+.feature-list li {
+  position: relative;
+  display: grid;
+  grid-template-columns: 2.5rem 1fr;
+  gap: clamp(1rem, 3vw, 2rem);
+  align-items: baseline;
+  padding: clamp(1.1rem, 2.2vw, 1.4rem) clamp(1.2rem, 2.5vw, 1.75rem);
+  margin-bottom: 0.85rem;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: linear-gradient(165deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.015));
+  backdrop-filter: blur(14px) saturate(160%);
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 10px 24px -18px rgba(0, 0, 0, 0.6);
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s var(--ease-out-soft), transform 0.6s var(--ease-out-soft), border-color 0.3s, background 0.3s;
+}
+
+.feature-list li:last-child { margin-bottom: 0; }
+.feature-list li.is-visible { opacity: 1; transform: none; }
+.feature-list li:hover {
+  border-color: rgba(209, 228, 250, 0.4);
+  background: linear-gradient(165deg, rgba(255, 255, 255, 0.11), rgba(209, 228, 250, 0.06));
+}
+
+.feature-num {
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  font-weight: 700;
+  color: var(--bone-dim);
+  padding-top: 0.25em;
+  transition: color 0.3s;
+}
+
+.feature-list li:hover .feature-num { color: var(--ember-bright); }
+
+.feature-list h3 {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  margin: 0 0 0.4rem;
+}
+
+.feature-list p {
+  color: var(--bone-dim);
+  font-size: 0.95rem;
+  max-width: 46ch;
+  margin: 0;
+}
+
+@media (max-width: 560px) {
+  .feature-list li { grid-template-columns: 1.75rem 1fr; }
+}
+
+/* ============ Unified closing CTA ============ */
+.closing-cta {
+  display: block;
+  position: relative;
+  isolation: isolate;
+  text-decoration: none;
+  color: var(--bone);
+  background: linear-gradient(180deg, rgba(209, 228, 250, 0.05), rgba(209, 228, 250, 0.02));
+  border-top: 1px solid var(--ink-softer);
+  padding: clamp(4rem, 9vw, 7rem) clamp(1.25rem, 4vw, 3rem);
+}
+
+/* Ambient glow behind the CTA — beyond mood, this gives any glass
+   surface here (a .btn-primary, say) something to actually refract.
+   Flat black behind backdrop-filter refracts nothing. */
+.closing-cta::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(50% 60% at 25% 40%, rgba(209, 228, 250, 0.16), transparent 65%),
+    radial-gradient(40% 50% at 80% 70%, rgba(63, 73, 89, 0.1), transparent 60%);
+  pointer-events: none;
+}
+
+.closing-cta-inner {
+  width: var(--container);
+  margin-inline: auto;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: clamp(1.5rem, 4vw, 3rem);
+  flex-wrap: wrap;
+}
+
+.closing-cta-eyebrow {
+  display: block;
+  font-size: 0.78rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ember-bright);
+  font-weight: 700;
+  margin-bottom: 1.25rem;
+}
+
+.closing-cta h2 {
+  font-family: var(--font-display);
+  font-size: clamp(2.6rem, 7vw, 5.5rem);
+  line-height: 1.03;
+  max-width: 18ch;
+  margin: 0;
+  color: var(--bone);
+}
+
+.closing-cta h2 .font-script { color: var(--ember-bright); }
+
+.closing-cta p {
+  margin: 1.1rem 0 0;
+  color: var(--bone-dim);
+  font-size: 1rem;
+  max-width: 46ch;
+}
+
+.closing-cta-arrow {
+  flex-shrink: 0;
+  width: clamp(56px, 6vw, 76px);
+  height: clamp(56px, 6vw, 76px);
+  border-radius: 50%;
+  border: 1px solid var(--ink-softer);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  color: var(--bone);
+  transition: transform 0.45s var(--ease-physical), border-color 0.35s, background 0.35s, color 0.35s;
+}
+
+.closing-cta:hover .closing-cta-arrow {
+  transform: translateX(8px);
+  border-color: var(--ember);
+  background: var(--ember);
+  color: var(--ink);
+}
+
+.closing-cta:hover h2 { color: var(--ember-bright); }
+.closing-cta:hover h2 .font-script { color: var(--bone); }
+
+/* ============ Price hero (dominant price display) ============
+   One reusable component for foundation/signature/immersive.html and
+   compare.html. Left-aligned to the same narrow column as spec-line-
+   centered, not centered text — the one deliberate asymmetric break
+   inside an otherwise centered tier-hero. */
+.price-hero {
+  position: relative;
+  isolation: isolate;
+  max-width: 30rem;
+  /* Clearance for the bolt overlay below, which juts well past the box
+     edge (inset -3.5rem/-4rem plus spike overshoot) — without this, its
+     spikes cut into the paragraph above or the CTA/demo below. */
+  margin: clamp(5.5rem, 8vw, 7rem) auto;
+  text-align: left;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.7s var(--ease-out-soft), transform 0.7s var(--ease-out-soft);
+}
+.price-hero.is-visible { opacity: 1; transform: none; }
+
+.price-hero::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: -25% -15%;
+  background: radial-gradient(50% 60% at 50% 46%, var(--price-c-halo), transparent 70%);
+  pointer-events: none;
+}
+
+/* ---- Per-tier color: Current = white, Surge = green, Flux = red. Every
+   color used by the ring/bloom/spark/halo below routes through these four
+   custom properties, so retinting a tier is a matter of overriding them. ---- */
+.price-hero {
+  --price-c-base: #6B260A;
+  --price-c-mid: #F5A623;
+  --price-c-hot: #FFFDF5;
+  --price-c-glow: rgba(245, 166, 35, 0.9);
+  --price-c-halo: rgba(201, 119, 61, 0.14);
+}
+.price-hero[data-level="1"] {
+  --price-c-base: #3A3A38;
+  --price-c-mid: #C9C6BC;
+  --price-c-hot: #FFFFFF;
+  --price-c-glow: rgba(230, 230, 225, 0.85);
+  --price-c-halo: rgba(200, 200, 195, 0.12);
+}
+.price-hero[data-level="2"] {
+  --price-c-base: #0F3A20;
+  --price-c-mid: #3FAE63;
+  --price-c-hot: #E9FFEE;
+  --price-c-glow: rgba(63, 174, 99, 0.85);
+  --price-c-halo: rgba(62, 156, 87, 0.14);
+}
+.price-hero[data-level="3"] {
+  --price-c-base: #4A0E0E;
+  --price-c-mid: #E13B2B;
+  --price-c-hot: #FFEDE9;
+  --price-c-glow: rgba(225, 59, 43, 0.85);
+  --price-c-halo: rgba(196, 50, 31, 0.14);
+}
+
+/* ---- Hover: an energized ember border, same construction as the homepage
+   featured card (core stroke + filament waver + breathing bloom) but
+   dormant — a plain dark hairline — until hovered or focused. Warm-only:
+   deep orange through amber to a white-hot tip, no per-tier color coding. ---- */
+@property --price-ember-angle {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0deg;
+}
+@property --price-jitter-angle {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0deg;
+}
+
+.price-hero-ring {
+  position: absolute;
+  z-index: 2;
+  inset: -1.5rem -2rem;
+  border-radius: 22px;
+  padding: 2px;
+  background: var(--hairline);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  transition: background 0.4s;
+}
+
+/* Sharper, higher-contrast hot core (a flash, not a soft glow) plus a fast
+   stepped jitter layered on top of the slow travel — the discontinuity
+   (steps, not ease) is what reads as electric rather than a smooth sweep. */
+.price-hero.is-looping .price-hero-ring {
+  background: conic-gradient(from calc(var(--price-ember-angle) + var(--price-jitter-angle)),
+    var(--price-c-base) 0deg, var(--price-c-base) 334deg,
+    var(--price-c-mid) 344deg, var(--price-c-mid) 350deg,
+    var(--price-c-hot) 354deg, var(--price-c-hot) 356deg,
+    var(--price-c-mid) 359deg,
+    var(--price-c-base) 360deg);
+  animation:
+    price-ember-loop 9s linear infinite,
+    price-ember-jitter 0.7s steps(6, end) infinite;
+}
+
+.price-hero-spark {
+  position: absolute;
+  z-index: 3;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--price-c-hot);
+  box-shadow: 0 0 7px 2px var(--price-c-glow);
+  opacity: 0;
+  pointer-events: none;
+}
+.price-hero.is-looping .price-hero-spark { animation: price-spark-flicker 2.6s steps(1, end) infinite; }
+.price-hero-spark-1 { top: -1.5rem; left: 14%; width: 4px; height: 4px; animation-delay: 0s; }
+.price-hero-spark-2 { top: 22%; right: -2rem; animation-delay: 0.5s; }
+.price-hero-spark-3 { bottom: -1.5rem; left: 40%; width: 5px; height: 5px; animation-delay: 1.05s; }
+.price-hero-spark-4 { top: 62%; left: -2rem; animation-delay: 1.6s; }
+.price-hero-spark-5 { bottom: -1.5rem; left: 78%; width: 4px; height: 4px; animation-delay: 2.05s; }
+
+.price-hero-bloom {
+  position: absolute;
+  z-index: 1;
+  inset: -2.5rem -3rem;
+  border-radius: 22px;
+  filter: blur(38px);
+  opacity: 0;
+  pointer-events: none;
+}
+.price-hero.is-looping .price-hero-bloom {
+  opacity: 0.4;
+  animation: price-bloom-breathe 6s ease-in-out infinite;
+}
+.price-hero-bloom::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 3px;
+  background: conic-gradient(from calc(var(--price-ember-angle) + var(--price-jitter-angle)),
+    var(--price-c-base) 0deg, var(--price-c-base) 334deg,
+    var(--price-c-mid) 344deg, var(--price-c-mid) 350deg,
+    var(--price-c-hot) 354deg, var(--price-c-hot) 356deg,
+    var(--price-c-mid) 359deg,
+    var(--price-c-base) 360deg);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
+
+@keyframes price-ember-loop { from { --price-ember-angle: 0deg; } to { --price-ember-angle: 360deg; } }
+@keyframes price-ember-jitter {
+  0% { --price-jitter-angle: 0deg; }
+  17% { --price-jitter-angle: 4deg; }
+  34% { --price-jitter-angle: -3deg; }
+  50% { --price-jitter-angle: 5deg; }
+  67% { --price-jitter-angle: -4deg; }
+  84% { --price-jitter-angle: 2deg; }
+  100% { --price-jitter-angle: 0deg; }
+}
+@keyframes price-bloom-breathe { 0%, 100% { opacity: 0.3; } 50% { opacity: 0.5; } }
+@keyframes price-spark-flicker {
+  0% { opacity: 0; transform: scale(0.5); }
+  4% { opacity: 1; transform: scale(1.2); }
+  9% { opacity: 0.15; transform: scale(0.7); }
+  13% { opacity: 0.9; transform: scale(1); }
+  18% { opacity: 0; transform: scale(0.6); }
+  100% { opacity: 0; }
+}
+
+/* ---- Jagged bolt overlay: procedurally generated in JS (editorial.js),
+   redrawn on an interval. This is what actually reads as "lightning" —
+   angular forked strokes that jut past the card edge — layered on top of
+   the smooth rotating ring above for continuous motion underneath. ---- */
+.price-hero-bolt {
+  position: absolute;
+  z-index: 2;
+  inset: -2rem -2.5rem -2.5rem;
+  width: calc(100% + 5rem);
+  height: calc(100% + 4.5rem);
+  overflow: visible;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+.price-hero.is-looping .price-hero-bolt { opacity: 1; }
+
+.price-hero-bolt path {
+  fill: none;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+}
+.price-hero-bolt .bolt-glow-a { stroke: var(--price-c-mid); stroke-width: 6; filter: blur(6px); opacity: 0.5; }
+.price-hero-bolt .bolt-hot-a { stroke: var(--price-c-hot); stroke-width: 1.4; opacity: 0.95; }
+.price-hero-bolt .bolt-glow-b { stroke: var(--price-c-mid); stroke-width: 4; filter: blur(4px); opacity: 0.32; }
+.price-hero-bolt .bolt-hot-b { stroke: var(--price-c-hot); stroke-width: 1; opacity: 0.65; }
+.price-hero-bolt .bolt-spike {
+  stroke: var(--price-c-hot);
+  stroke-width: 1.2;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+.price-hero-bolt .bolt-spike.is-lit { opacity: 0.9; }
+
+.price-hero.is-looping:not(.is-in-view) .price-hero-ring,
+.price-hero.is-looping:not(.is-in-view) .price-hero-bloom,
+.price-hero.is-looping:not(.is-in-view) .price-hero-spark {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .price-hero-ring,
+  .price-hero-bloom,
+  .price-hero-spark { animation: none !important; }
+  .price-hero.is-looping .price-hero-ring {
+    background: conic-gradient(var(--price-c-base) 0deg, var(--price-c-mid) 87%, var(--price-c-hot) 90%, var(--price-c-mid) 93%, var(--price-c-base) 360deg);
+  }
+  .price-hero.is-looping .price-hero-bloom { opacity: 0.3; }
+  .price-hero-spark,
+  .price-hero-bolt { display: none; }
+}
+
+.price-hero-label {
+  display: block;
+  font-size: 0.68rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--ember-bright);
+  margin-bottom: 0.4rem;
+}
+
+.price-hero-figure {
+  --price-num-size: clamp(4rem, 11vw, 9rem);
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.35rem;
+  font-family: var(--font-display);
+}
+
+.price-hero-num {
+  font-size: var(--price-num-size);
+  font-weight: 600;
+  line-height: 0.9;
+  letter-spacing: -0.03em;
+  color: var(--bone);
+}
+
+.price-hero-unit {
+  font-size: calc(var(--price-num-size) * 0.235);
+  color: var(--bone-dim);
+}
+
+.price-hero-note {
+  margin-top: 0.7rem;
+  color: var(--bone-dim);
+  font-size: 0.92rem;
+}
+
+/* ============ Spec line (price / delivery / best-for row) ============ */
+.spec-line {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid var(--ink-softer);
+  margin-top: clamp(2rem, 4vw, 3rem);
+}
+
+.spec-row {
+  display: grid;
+  grid-template-columns: 10rem 1fr;
+  gap: 1rem;
+  padding: clamp(1rem, 2vw, 1.4rem) 0;
+  border-bottom: 1px solid var(--ink-softer);
+  align-items: baseline;
+}
+
+.spec-label {
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--ember-bright);
+}
+
+.spec-value {
+  font-family: var(--font-display);
+  font-size: clamp(1.15rem, 2vw, 1.5rem);
+  color: var(--bone);
+}
+
+/* ============ Secondary action: text link, never a second pill ========= */
+.scroll-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  color: var(--bone-dim);
+  font-size: 0.78rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 700;
+  transition: color 0.3s;
+}
+
+.scroll-link:hover { color: var(--ember-bright); }
+
+.scroll-link-arrow {
+  display: inline-block;
+  transition: transform 0.35s var(--ease-physical);
+}
+
+.scroll-link:hover .scroll-link-arrow { transform: translateY(4px); }
+
+/* Spec-line sitting under a centered hero headline still reads left-aligned
+   internally, but the block itself is centered as a unit. */
+.spec-line-centered {
+  max-width: 30rem;
+  margin-inline: auto;
+  text-align: left;
+}
+
+/* ============ Subtle card (technique borrowed from Linear: a near-
+   invisible nested surface for content that shouldn't compete with a
+   page's primary cards — a faint tint + soft shadow, no border) ======== */
+.card-subtle {
+  background: rgba(209, 228, 250, 0.03);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-sm);
+}
+
+/* ============ Live demo badge (replaces caption line under demos) ====== */
+.live-badge {
+  position: absolute;
+  top: 0.85rem;
+  left: 0.85rem;
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.3rem 0.6rem;
+  border-radius: var(--radius-pill);
+  background: rgba(5, 6, 15, 0.72);
+  backdrop-filter: blur(4px);
+  font-size: 0.66rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--bone);
+  pointer-events: none;
+}
+
+.live-badge-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #4caf6e;
+  box-shadow: 0 0 0 0 rgba(76, 175, 110, 0.6);
+  animation: live-pulse 2s ease-out infinite;
+}
+
+@keyframes live-pulse {
+  0% { box-shadow: 0 0 0 0 rgba(76, 175, 110, 0.55); }
+  70% { box-shadow: 0 0 0 7px rgba(76, 175, 110, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(76, 175, 110, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .live-badge-dot { animation: none; }
+}
+
+@media (max-width: 760px) {
+  .closing-cta-inner { align-items: flex-start; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stat-block,
+  .feature-list li,
+  .price-hero {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}

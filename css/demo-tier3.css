@@ -1,0 +1,471 @@
+/* KAFFE VÆRK — Tier 3 / Immersive demo. Dark, continuous, one camera move.
+   This is a fictional client's own site, not Studio Flux's marketing site —
+   it keeps the original Ember & Iron palette regardless of what tokens.css
+   defines for the main site, since it represents a different brand. */
+body.kw {
+  --ink: #0B0D10;
+  --ink-soft: #14171C;
+  --ink-softer: #1C2027;
+  --bone: #EDE8DF;
+  --bone-dim: #A9A399;
+  --ember: #C9773D;
+  --ember-bright: #E89A5C;
+}
+
+body.kw {
+  background: var(--ink);
+  color: var(--bone);
+  font-family: var(--font-body);
+  overflow-x: hidden;
+}
+
+.kw-scene { position: relative; background: var(--ink); }
+
+/* ---------- Top bar ---------- */
+.kw-bar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 50;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem clamp(1.25rem, 4vw, 3rem);
+  background: linear-gradient(to bottom, rgba(11,13,16,0.75), transparent);
+}
+
+.kw-wordmark {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  font-size: 1rem;
+  color: var(--bone);
+  text-decoration: none;
+}
+
+.kw-bar nav { display: flex; align-items: center; gap: 1.75rem; }
+.kw-bar nav a:not(.kw-cta) {
+  color: var(--bone-dim);
+  text-decoration: none;
+  font-size: 0.85rem;
+  letter-spacing: 0.04em;
+}
+.kw-bar nav a:hover { color: var(--ember-bright); }
+
+.kw-cta {
+  background: var(--ember);
+  color: var(--ink);
+  padding: 0.55rem 1.1rem;
+  border-radius: var(--radius-pill);
+  font-weight: 700;
+  font-size: 0.82rem;
+  text-decoration: none;
+  transition: background 0.3s, transform 0.3s var(--ease-physical);
+}
+.kw-cta:hover { background: var(--ember-bright); transform: translateY(-2px); }
+
+/* ---------- Scene 1: hero / logotype assembly ---------- */
+.kw-hero { perspective: 1200px; }
+
+.kw-hero-pin {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.kw-hero-video-wrap {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: var(--ink);
+}
+.kw-hero-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.55;
+  filter: saturate(0.85);
+}
+@media (max-width: 640px) {
+  .kw-hero-video { display: none; }
+}
+
+.kw-badge {
+  position: relative;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 1.5rem auto 0;
+  padding: 0.4rem 0.95rem;
+  width: fit-content;
+  border-radius: var(--radius-pill);
+  background: rgba(201,119,61,0.14);
+  border: 1px solid rgba(201,119,61,0.4);
+  color: var(--ember-bright);
+  font-size: 0.76rem;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  opacity: 0;
+  transform: translateY(14px);
+}
+
+.kw-vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    radial-gradient(120% 90% at 50% 100%, rgba(0,0,0,0.78), transparent 60%),
+    radial-gradient(80% 60% at 50% 0%, rgba(0,0,0,0.6), transparent 55%),
+    rgba(11,13,16,0.35);
+}
+
+.kw-parallax-layer { position: absolute; inset: 0; }
+
+.kw-layer-back {
+  background: radial-gradient(50% 45% at 65% 35%, rgba(201,119,61,0.28), transparent 65%);
+  transform: translateZ(-200px) scale(1.2);
+}
+
+.kw-layer-mid {
+  right: -10%;
+  bottom: -15%;
+  left: auto;
+  top: auto;
+  width: 55%;
+  height: 65%;
+  opacity: 0.55;
+  border-radius: 50%;
+  overflow: hidden;
+  filter: blur(1px) saturate(0.8);
+}
+.kw-layer-mid img { width: 100%; height: 100%; object-fit: cover; }
+
+.kw-steam { position: absolute; inset: 0; pointer-events: none; z-index: 1; }
+.kw-steam span {
+  position: absolute;
+  bottom: 20%;
+  width: 40px;
+  height: 140px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(237,232,223,0.18), transparent 70%);
+  filter: blur(6px);
+  animation: kw-drift 7s ease-in-out infinite;
+}
+.kw-steam span:nth-child(1) { left: 40%; animation-delay: 0s; }
+.kw-steam span:nth-child(2) { left: 48%; animation-delay: 1.6s; }
+.kw-steam span:nth-child(3) { left: 55%; animation-delay: 3.1s; }
+
+@keyframes kw-drift {
+  0% { transform: translateY(0) scaleY(1); opacity: 0.5; }
+  50% { transform: translateY(-90px) scaleY(1.2); opacity: 0.15; }
+  100% { transform: translateY(-180px) scaleY(1.3); opacity: 0; }
+}
+
+.kw-logotype {
+  position: relative;
+  z-index: 2;
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(2.4rem, 10vw, 8rem);
+  letter-spacing: 0.01em;
+  color: var(--bone);
+}
+
+.kw-letters { display: inline-flex; }
+.kw-letters [data-l] { display: inline-block; will-change: transform, opacity; }
+.kw-space { width: clamp(0.6rem, 2vw, 2rem); }
+
+.kw-tagline {
+  position: relative;
+  z-index: 2;
+  margin-top: 1.5rem;
+  font-size: clamp(0.95rem, 1.6vw, 1.2rem);
+  color: var(--bone-dim);
+  letter-spacing: 0.02em;
+  opacity: 0;
+  transform: translateY(16px);
+}
+
+.kw-scroll-cue {
+  position: absolute;
+  bottom: 2.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--bone-dim);
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.kw-scroll-cue i {
+  width: 1px; height: 32px;
+  background: linear-gradient(to bottom, var(--ember-bright), transparent);
+  display: block;
+}
+
+/* ---------- Scene 2: the screw (Three.js scroll-scrubbed sequence) ---------- */
+.kw-kinetic {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(1.9rem, 5.5vw, 4rem);
+  line-height: 1.15;
+}
+.kw-kinetic .kw-word {
+  display: inline-block;
+  opacity: 0.14;
+  transform: translateY(0.15em);
+  will-change: transform, opacity;
+}
+
+.kw-screw-scene { height: auto; }
+
+.kw-screw-pin {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+  /* Always-present ambient glow so any moment where the video/mask hasn't
+     painted yet (a stall, a slow-loading unlock image) reads as a moody
+     dark frame rather than a broken flat-black one. */
+  background: radial-gradient(65% 55% at 50% 55%, rgba(201,119,61,0.10), transparent 70%), var(--ink);
+}
+
+.kw-screw-video {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  opacity: 0;
+  will-change: opacity;
+}
+
+.kw-screw-fallback {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: none;
+  background:
+    radial-gradient(60% 50% at 50% 55%, rgba(201,119,61,0.16), transparent 70%),
+    var(--ink);
+}
+
+.kw-screw-quote {
+  position: absolute;
+  top: 15%;
+  left: 50%;
+  z-index: 2;
+  width: min(90vw, 720px);
+  transform: translateX(-50%);
+  text-align: center;
+  color: var(--bone);
+  pointer-events: none;
+}
+
+@media (max-width: 640px) {
+  .kw-screw-quote { top: 10%; font-size: 0.72em; }
+}
+
+/* ---------- Scene 3: ring gallery (Saturn-ring style 3D carousel) ---------- */
+.kw-gallery-scene { height: auto; }
+
+.kw-gallery-pin {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: radial-gradient(70% 55% at 50% 55%, rgba(201,119,61,0.08), transparent 70%), var(--ink);
+  perspective: 1600px;
+}
+
+.kw-gallery-heading {
+  position: absolute;
+  top: clamp(2rem, 6vh, 4rem);
+  left: clamp(1.25rem, 6vw, 6rem);
+  z-index: 2;
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 3vw, 2.2rem);
+  color: var(--bone-dim);
+  opacity: 0;
+  transform: translateX(-24px);
+  will-change: transform, opacity;
+}
+
+.kw-ring-stage {
+  position: relative;
+  width: 100%;
+  height: 64vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform-style: preserve-3d;
+  /* Tilted like Saturn's rings, viewed at an angle. */
+  transform: rotateX(-15deg);
+}
+
+.kw-ring-group {
+  position: relative;
+  width: 1px;
+  height: 1px;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.kw-ring-item {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: clamp(190px, 18vw, 280px);
+  margin: 0;
+  transform: translate(-50%, -50%) rotateY(calc(var(--i) * 72deg)) translateZ(clamp(280px, 24vw, 420px));
+  will-change: transform, opacity, filter;
+  transition: opacity 0.25s ease;
+}
+
+.kw-ring-item img {
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  border-radius: var(--radius-md);
+  box-shadow: 0 25px 50px rgba(0,0,0,0.55);
+  display: block;
+}
+
+.kw-ring-item figcaption {
+  margin-top: 0.75rem;
+  color: var(--bone-dim);
+  font-size: 0.8rem;
+  text-align: center;
+}
+
+@media (max-width: 760px) {
+  .kw-ring-stage { transform: rotateX(-10deg); }
+}
+
+/* ---------- Scene 4: menu ---------- */
+.kw-menu {
+  padding: clamp(5rem, 10vw, 8rem) clamp(1.25rem, 6vw, 6rem);
+  max-width: 780px;
+  margin-inline: auto;
+}
+
+.kw-eyebrow {
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 0.78rem;
+  color: var(--ember-bright);
+  font-weight: 700;
+  margin-bottom: 2.5rem;
+}
+
+.kw-menu-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.kw-menu-list li {
+  display: flex;
+  align-items: baseline;
+  gap: 0.8rem;
+  padding: 1.1rem 0;
+  border-bottom: 1px solid var(--ink-softer);
+  opacity: 0;
+  transform: translateY(24px);
+}
+
+.kw-item {
+  font-family: var(--font-display);
+  font-size: clamp(1.05rem, 2vw, 1.35rem);
+  white-space: nowrap;
+}
+
+.kw-dots {
+  flex: 1;
+  border-bottom: 1px dotted rgba(169,163,153,0.35);
+  transform: translateY(-6px);
+}
+
+.kw-price {
+  color: var(--ember-bright);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* ---------- Scene 5: visit / close ---------- */
+.kw-visit {
+  padding: clamp(5rem, 10vw, 8rem) clamp(1.25rem, 6vw, 6rem) 0;
+}
+
+.kw-visit-inner { max-width: 1000px; margin-inline: auto; text-align: center; }
+
+.kw-visit-grid {
+  margin-top: 3.5rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  text-align: left;
+}
+.kw-visit-grid h3 {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--ember-bright);
+  margin-bottom: 0.6rem;
+  font-family: var(--font-body);
+  font-weight: 700;
+}
+.kw-visit-grid p { color: var(--bone-dim); font-size: 0.98rem; line-height: 1.6; }
+.kw-link { color: var(--bone); text-decoration: none; border-bottom: 1px solid var(--ember); }
+.kw-link:hover { color: var(--ember-bright); }
+
+.kw-map {
+  margin-top: 3.5rem;
+  height: clamp(200px, 30vw, 320px);
+  border-radius: var(--radius-lg);
+  background:
+    radial-gradient(circle at 38% 45%, var(--ember) 0 8px, transparent 9px),
+    repeating-linear-gradient(0deg, rgba(237,232,223,0.05) 0 1px, transparent 1px 42px),
+    repeating-linear-gradient(90deg, rgba(237,232,223,0.05) 0 1px, transparent 1px 42px),
+    var(--ink-soft);
+  border: 1px solid var(--ink-softer);
+}
+
+.kw-footer {
+  margin-top: 5rem;
+  padding: 2.5rem clamp(1.25rem, 6vw, 6rem);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid var(--ink-softer);
+  color: var(--bone-dim);
+  font-size: 0.85rem;
+}
+.kw-wordmark.small { font-size: 1rem; }
+
+@media (max-width: 760px) {
+  .kw-bar nav a:not(.kw-cta) { display: none; }
+  .kw-visit-grid { grid-template-columns: 1fr; gap: 1.75rem; text-align: center; }
+  .kw-footer { flex-direction: column; gap: 0.6rem; text-align: center; }
+}
+
+@media (max-width: 420px) {
+  .kw-item { white-space: normal; }
+}
+
+/* Preview-mode miniature: no interaction chrome */
+.is-preview .kw-bar { display: none; }
