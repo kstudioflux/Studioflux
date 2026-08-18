@@ -5,9 +5,19 @@
 # See the security report for details.
 
 /*
-  Content-Security-Policy: default-src 'self'; script-src 'self' https://cdn.jsdelivr.net https://app.cal.com; style-src 'self' 'unsafe-inline'; img-src 'self' https://images.unsplash.com; font-src 'self'; media-src 'self'; connect-src 'self' https://app.cal.com https://cal.com; frame-src https://cal.com https://app.cal.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests
+  Content-Security-Policy: default-src 'self'; script-src 'self' https://cdn.jsdelivr.net https://app.cal.com; style-src 'self' 'unsafe-inline'; img-src 'self' https://images.unsplash.com; font-src 'self'; media-src 'self'; connect-src 'self' https://app.cal.com https://cal.com; frame-src 'self' https://cal.com https://app.cal.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests
   Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
   X-Content-Type-Options: nosniff
   X-Frame-Options: DENY
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()
+
+# The demo/ sub-sites are embedded in a small preview iframe on their
+# matching tier page (pages/foundation.html etc.). The blanket policy above
+# refuses ALL framing (frame-ancestors 'none' / X-Frame-Options DENY) to
+# stop other sites from embedding us for clickjacking — but that also
+# blocked our own same-site preview. This override lets the demo pages be
+# framed by studioflux.dk itself only, everything else stays locked down.
+/demo/*
+  Content-Security-Policy: default-src 'self'; script-src 'self' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; img-src 'self' https://images.unsplash.com; font-src 'self'; media-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; upgrade-insecure-requests
+  X-Frame-Options: SAMEORIGIN
