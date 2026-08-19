@@ -100,11 +100,11 @@
 .pricing-card[data-level="1"] .pricing-tier,
 .pricing-card[data-level="1"] .pricing-price .pre,
 .pricing-card[data-level="1"] .pricing-price .unit,
+.pricing-card[data-level="1"] .pricing-note,
 .pricing-card[data-level="1"] .pricing-for,
 .pricing-card[data-level="1"] .pricing-feat li { color: rgba(20, 21, 26, 0.65); }
 .pricing-card[data-level="1"] .pricing-price .num,
 .pricing-card[data-level="1"] .pricing-feat .n { color: #14151a; }
-.pricing-card[data-level="1"] .pricing-hr { border-top-color: rgba(20, 21, 26, 0.15); }
 
 .pricing-card[data-level="2"] .pricing-tier,
 .pricing-card[data-level="3"] .pricing-tier,
@@ -112,6 +112,8 @@
 .pricing-card[data-level="3"] .pricing-price .pre,
 .pricing-card[data-level="2"] .pricing-price .unit,
 .pricing-card[data-level="3"] .pricing-price .unit,
+.pricing-card[data-level="2"] .pricing-note,
+.pricing-card[data-level="3"] .pricing-note,
 .pricing-card[data-level="2"] .pricing-for,
 .pricing-card[data-level="3"] .pricing-for,
 .pricing-card[data-level="2"] .pricing-feat li,
@@ -120,8 +122,6 @@
 .pricing-card[data-level="3"] .pricing-price .num,
 .pricing-card[data-level="2"] .pricing-feat .n,
 .pricing-card[data-level="3"] .pricing-feat .n { color: #ffffff; }
-.pricing-card[data-level="2"] .pricing-hr,
-.pricing-card[data-level="3"] .pricing-hr { border-top-color: rgba(255, 255, 255, 0.25); }
 
 .pricing-tier {
   font-size: 0.78rem;
@@ -150,17 +150,17 @@
   color: var(--bone);
 }
 
+.pricing-note {
+  color: var(--bone-dim);
+  font-size: 0.8rem;
+  margin: 0 0 0.9rem;
+}
+
 .pricing-for {
   color: var(--bone-dim);
   font-size: 0.92rem;
   margin-bottom: 1.4rem;
   min-height: 2.7em;
-}
-
-.pricing-hr {
-  border: none;
-  border-top: 1px solid var(--ink-softer);
-  margin: 0 0 1.4rem;
 }
 
 .pricing-feat {

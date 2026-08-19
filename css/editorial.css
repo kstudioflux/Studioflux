@@ -503,7 +503,6 @@
 .spec-line {
   display: flex;
   flex-direction: column;
-  border-top: 1px solid var(--ink-softer);
   margin-top: clamp(2rem, 4vw, 3rem);
 }
 
@@ -512,7 +511,6 @@
   grid-template-columns: 10rem 1fr;
   gap: 1rem;
   padding: clamp(1rem, 2vw, 1.4rem) 0;
-  border-bottom: 1px solid var(--ink-softer);
   align-items: baseline;
 }
 
