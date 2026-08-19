@@ -10,7 +10,6 @@
   gap: clamp(1.5rem, 4vw, 3rem);
   max-width: 1000px;
   margin: 0 auto 2.5rem;
-  border-bottom: 1px solid var(--ink-softer);
   flex-wrap: wrap;
 }
 
