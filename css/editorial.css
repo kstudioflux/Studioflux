@@ -150,20 +150,6 @@
   padding: clamp(4rem, 9vw, 7rem) clamp(1.25rem, 4vw, 3rem);
 }
 
-/* Ambient glow behind the CTA — beyond mood, this gives any glass
-   surface here (a .btn-primary, say) something to actually refract.
-   Flat black behind backdrop-filter refracts nothing. */
-.closing-cta::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  background:
-    radial-gradient(50% 60% at 25% 40%, rgba(209, 228, 250, 0.16), transparent 65%),
-    radial-gradient(40% 50% at 80% 70%, rgba(63, 73, 89, 0.1), transparent 60%);
-  pointer-events: none;
-}
-
 .closing-cta-inner {
   width: var(--container);
   margin-inline: auto;

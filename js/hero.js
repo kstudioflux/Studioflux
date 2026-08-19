@@ -48,7 +48,6 @@
 
   tl.to(".hero-bg-plain", { opacity: 0, ease: "none" }, 0)
     .to(".hero-bg-cinematic", { opacity: 1, ease: "none" }, 0)
-    .to(".hero-glow", { opacity: 1, ease: "none" }, 0.1)
     .to(".ghost-box", {
       opacity: 0,
       y: function (i) { return [-60, 50, -30][i]; },

@@ -10,14 +10,6 @@
   position: relative;
   isolation: isolate;
 }
-.pricing-showcase-section::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  background: radial-gradient(55% 50% at 50% 55%, rgba(209, 228, 250, 0.08), transparent 65%);
-  pointer-events: none;
-}
 
 .pricing-row {
   display: grid;

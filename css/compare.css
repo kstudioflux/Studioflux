@@ -215,16 +215,6 @@
   filter: blur(1px) saturate(0.85);
   transform: scale(1.08);
 }
-.ct3-glow {
-  position: absolute;
-  inset: -10%;
-  background: radial-gradient(55% 60% at 65% 35%, rgba(209,228,250,0.4), transparent 65%);
-  animation: ct3-pulse 6s ease-in-out infinite;
-}
-@keyframes ct3-pulse {
-  0%, 100% { opacity: 0.75; transform: scale(1); }
-  50% { opacity: 1; transform: scale(1.08); }
-}
 .ct3-badge {
   position: relative;
   z-index: 2;
