@@ -74,56 +74,43 @@
   }
 }
 
-/* ============ Feature grid (flat cards, corner badge, checklist) ========= */
+/* ============ Feature list (plain text, no card chrome) ========= */
 .feature-list {
   list-style: none;
   margin: 0;
   padding: 0;
   max-width: none;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: clamp(1.25rem, 2.5vw, 1.75rem);
 }
 
 .feature-list > li {
   position: relative;
   display: flex;
   flex-direction: column;
-  gap: 0.7rem;
-  padding: clamp(1.75rem, 3vw, 2.25rem) clamp(1.5rem, 2.5vw, 1.85rem) clamp(1.5rem, 2.5vw, 1.75rem);
-  border-radius: var(--radius-lg);
-  border: 1px solid var(--ink-softer);
-  background: var(--ink-soft);
+  gap: 0.6rem;
+  padding: clamp(1.5rem, 2.5vw, 1.85rem) 0;
+  border-bottom: 1px solid var(--ink-softer);
   opacity: 0;
   transform: translateY(20px);
-  transition: opacity 0.6s var(--ease-out-soft), transform 0.6s var(--ease-out-soft), border-color 0.3s;
+  transition: opacity 0.6s var(--ease-out-soft), transform 0.6s var(--ease-out-soft);
 }
 
+.feature-list > li:last-child { border-bottom: none; }
 .feature-list > li.is-visible { opacity: 1; transform: none; }
-.feature-list > li:hover { border-color: #F5A623; }
 
 .feature-badge {
-  position: absolute;
-  top: -0.7rem;
-  right: 1.35rem;
-  padding: 0.4rem 0.85rem;
-  border-radius: 42% 58% 55% 45% / 55% 42% 58% 45%;
-  background: linear-gradient(155deg, #FFC670, #F5A623);
-  color: #3A1D02;
   font-family: var(--font-body);
   font-size: 0.7rem;
-  font-weight: 800;
-  letter-spacing: 0.01em;
-  white-space: nowrap;
-  transform: rotate(-4deg);
-  box-shadow: 0 8px 16px -8px rgba(245, 166, 35, 0.65);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #F5A623;
 }
 
 .feature-list h3 {
   font-family: var(--font-display);
-  font-size: 1.2rem;
+  font-size: 1.25rem;
   line-height: 1.25;
-  margin: 0.35rem 3.5rem 0 0;
+  margin: 0;
   transition: color 0.3s;
 }
 
@@ -131,17 +118,19 @@
 
 .feature-list > li > p {
   color: var(--bone-dim);
-  font-size: 0.88rem;
+  font-size: 0.92rem;
+  max-width: 60ch;
   margin: 0;
 }
 
 .feature-checklist {
   list-style: none;
-  margin: 0.3rem 0 0;
+  margin: 0.2rem 0 0;
   padding: 0;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 0.4rem 0.75rem;
+  max-width: 40rem;
 }
 
 .feature-checklist li {
@@ -161,7 +150,6 @@
 }
 
 @media (max-width: 640px) {
-  .feature-list { grid-template-columns: 1fr; }
   .feature-checklist { grid-template-columns: 1fr; }
 }
 
