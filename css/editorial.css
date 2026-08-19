@@ -74,49 +74,62 @@
   }
 }
 
-/* ============ Index list (numbers live in the margin, not a box) ========= */
+/* ============ Feature grid (flat cards, warm number badge) ========= */
 .feature-list {
   list-style: none;
   margin: 0;
   padding: 0;
   max-width: none;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: clamp(1rem, 2vw, 1.5rem);
 }
 
 .feature-list li {
   position: relative;
-  display: grid;
-  grid-template-columns: 2.5rem 1fr;
-  gap: clamp(1rem, 3vw, 2rem);
-  align-items: baseline;
-  padding: clamp(1.25rem, 2.5vw, 1.6rem) 0;
-  border-bottom: 1px solid var(--ink-softer);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.9rem;
+  padding: clamp(1.5rem, 2.5vw, 2rem);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--ink-softer);
+  background: var(--ink-soft);
   opacity: 0;
   transform: translateY(20px);
-  transition: opacity 0.6s var(--ease-out-soft), transform 0.6s var(--ease-out-soft);
+  transition: opacity 0.6s var(--ease-out-soft), transform 0.6s var(--ease-out-soft), border-color 0.3s;
 }
 
-.feature-list li:last-child { border-bottom: none; }
 .feature-list li.is-visible { opacity: 1; transform: none; }
+.feature-list li:hover { border-color: var(--price-c-mid, #F5A623); }
 
 .feature-num {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.65rem;
+  border-radius: var(--radius-pill);
+  background: rgba(245, 166, 35, 0.14);
   font-family: var(--font-body);
-  font-size: 0.72rem;
-  letter-spacing: 0.12em;
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
   font-weight: 700;
-  color: var(--bone-dim);
-  padding-top: 0.25em;
-  transition: color 0.3s;
+  color: #F5A623;
+  transition: color 0.3s, background 0.3s;
 }
 
-.feature-list li:hover .feature-num,
-.feature-list li:hover h3 { color: var(--ember-bright); }
+.feature-list li:hover .feature-num {
+  background: rgba(245, 166, 35, 0.22);
+  color: #FFC670;
+}
 
 .feature-list h3 {
   font-family: var(--font-display);
   font-size: 1.3rem;
-  margin: 0 0 0.4rem;
+  margin: 0;
   transition: color 0.3s;
 }
+
+.feature-list li:hover h3 { color: var(--ember-bright); }
 
 .feature-list p {
   color: var(--bone-dim);
@@ -125,8 +138,8 @@
   margin: 0;
 }
 
-@media (max-width: 560px) {
-  .feature-list li { grid-template-columns: 1.75rem 1fr; }
+@media (max-width: 640px) {
+  .feature-list { grid-template-columns: 1fr; }
 }
 
 /* ============ Unified closing CTA ============ */
