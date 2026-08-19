@@ -242,7 +242,6 @@ body.site {
 
 /* ---------- Footer ---------- */
 .site-footer {
-  border-top: 1px solid var(--ink-softer);
   padding: clamp(3rem, 6vw, 4.5rem) clamp(1.25rem, 4vw, 3rem) 2.5rem;
   margin-top: 6rem;
 }
@@ -295,7 +294,6 @@ body.site {
   width: var(--container);
   margin: 2.5rem auto 0;
   padding-top: 1.5rem;
-  border-top: 1px solid var(--ink-softer);
   font-size: 0.8rem;
   color: var(--bone-dim);
   display: flex;

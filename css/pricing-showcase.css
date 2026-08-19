@@ -144,6 +144,11 @@
   color: var(--bone-dim);
 }
 .pricing-price .num {
+  /* The serif numerals carry their own left bearing, which reads as an
+     oversized gap after "fra" (worst on a leading 3) even though the
+     flex gap is identical on both sides. Pull it in to balance the two
+     gaps optically instead of by the numbers alone. */
+  margin-left: -0.15rem;
   font-size: clamp(2.6rem, 5.5vw, 3.6rem);
   font-weight: 600;
   line-height: 1;
@@ -281,7 +286,7 @@
 
 /* ---------- energized border: same ember/white/green/red system as the
    tier-page price-hero (css/editorial.css) — .price-hero-ring, .price-hero-
-   bolt, .price-hero-spark and .price-hero-bloom are shared classes; the
+   bolt and .price-hero-spark are shared classes; the
    jagged bolt geometry itself is generated once in js/editorial.js and
    picks up any [data-level] container, this one included. Only the tier
    color variables and the activation/pause triggers need restating here,
@@ -308,14 +313,12 @@
   --price-c-halo: rgba(196, 50, 31, 0.14);
 }
 
-.pricing-card .price-hero-ring,
-.pricing-card .price-hero-bloom { border-radius: var(--radius-lg); }
+.pricing-card .price-hero-ring { border-radius: var(--radius-lg); }
 
 /* Three cards sit side by side here, unlike the single centered price-hero
    on tier pages — pull each border's reach in, especially sideways, so
    neighboring borders don't touch even on a wide spike/blur frame. */
 .pricing-card .price-hero-ring { inset: -1rem -0.85rem; }
-.pricing-card .price-hero-bloom { inset: -1.25rem -1.1rem; filter: blur(26px); }
 .pricing-card .price-hero-bolt {
   inset: -1.25rem -1rem -1.5rem;
   width: calc(100% + 2rem);
@@ -337,10 +340,6 @@
 }
 .pricing-card.is-looping .price-hero-bolt { opacity: 1; }
 .pricing-card.is-looping .price-hero-spark { animation: price-spark-flicker 2.6s steps(1, end) infinite; }
-.pricing-card.is-looping .price-hero-bloom {
-  opacity: 0.4;
-  animation: price-bloom-breathe 6s ease-in-out infinite;
-}
 
 .pricing-card .price-hero-spark-1 { top: -0.9rem; left: 14%; width: 4px; height: 4px; animation-delay: 0s; }
 .pricing-card .price-hero-spark-2 { top: 22%; right: -1.2rem; animation-delay: 0.5s; }
@@ -349,7 +348,6 @@
 .pricing-card .price-hero-spark-5 { bottom: -0.9rem; left: 78%; width: 4px; height: 4px; animation-delay: 2.05s; }
 
 .pricing-card.is-looping:not(.is-in-view) .price-hero-ring,
-.pricing-card.is-looping:not(.is-in-view) .price-hero-bloom,
 .pricing-card.is-looping:not(.is-in-view) .price-hero-spark {
   animation-play-state: paused;
 }
@@ -357,12 +355,10 @@
 @media (prefers-reduced-motion: reduce) {
   .pricing-card { opacity: 1; transform: none; transition: none; }
   .price-hero-ring,
-  .price-hero-bloom,
   .price-hero-spark { animation: none !important; }
   .pricing-card.is-looping .price-hero-ring {
     background: conic-gradient(var(--price-c-base) 0deg, var(--price-c-mid) 87%, var(--price-c-hot) 90%, var(--price-c-mid) 93%, var(--price-c-base) 360deg);
   }
-  .pricing-card.is-looping .price-hero-bloom { opacity: 0.3; }
   .pricing-bg-bleed { opacity: 0.6; animation: none; }
   .price-hero-spark { display: none; }
 }

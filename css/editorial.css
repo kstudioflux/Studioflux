@@ -169,8 +169,6 @@
   isolation: isolate;
   text-decoration: none;
   color: var(--bone);
-  background: linear-gradient(180deg, rgba(209, 228, 250, 0.05), rgba(209, 228, 250, 0.02));
-  border-top: 1px solid var(--ink-softer);
   padding: clamp(4rem, 9vw, 7rem) clamp(1.25rem, 4vw, 3rem);
 }
 
@@ -360,17 +358,11 @@
 .price-hero-spark-5 { bottom: -1.5rem; left: 78%; width: 4px; height: 4px; animation-delay: 2.05s; }
 
 .price-hero-bloom {
-  position: absolute;
-  z-index: 1;
-  inset: -2.5rem -3rem;
-  border-radius: 22px;
-  filter: blur(38px);
-  opacity: 0;
-  pointer-events: none;
-}
-.price-hero.is-looping .price-hero-bloom {
-  opacity: 0.4;
-  animation: price-bloom-breathe 6s ease-in-out infinite;
+  /* This was a second, blurred rectangle glowing behind the sharp
+     animated ring — it read as a filled-in box distinct from the ring
+     line itself, not part of "the animation". Removed; the ring/bolt/
+     sparks stay. */
+  display: none;
 }
 .price-hero-bloom::after {
   content: "";
